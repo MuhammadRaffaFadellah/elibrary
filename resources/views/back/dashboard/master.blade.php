@@ -8,6 +8,9 @@
     <meta name="referrer" content="always">
     <title>Dashboard - Elibrary</title>
 
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/b628ba4512.js" crossorigin="anonymous"></script>
+
     <!-- Flowbite CSS -->
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
 
@@ -30,9 +33,10 @@
         @include('back.dashboard.sidebar')
 
         <!-- Main content -->
-        <main class="flex-1 lg:ml-64 md:ml-0 transition-all duration-300"
+        <main class="flex-1 lg:ml-64 sm:ml-0 md:ml-64 transition-all duration-300 fixed"
             :class="sidebarOpen ? 'translate-x-64' : 'translate-x-0'">
             <div class="p-6">
+                <h2 class="text-xl">@yield('page-title')</h2>
                 @yield('body')
             </div>
         </main>
