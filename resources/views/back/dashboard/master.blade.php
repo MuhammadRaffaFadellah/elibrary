@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="referrer" content="always">
-    <title>Dashboard - Elibrary</title>
+    <title>@yield('name')</title>
 
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/b628ba4512.js" crossorigin="anonymous"></script>
@@ -23,32 +23,27 @@
     @yield('style')
 </head>
 
-<body class="h-full">
+<body class="h-full overflow-auto">
     @include('spinner')
-    <!-- Header -->
-    @include('back.dashboard.header')
 
-    <!-- Sidebar -->
-    <div class="flex pt-16">
-        @include('back.dashboard.sidebar')
+    <div class="flex flex-col h-full">
+        <!-- Header -->
+        @include('back.dashboard.header')
 
-        <!-- Main content -->
-        <main class="flex-1 lg:ml-64 sm:ml-0 md:ml-64 transition-all duration-300 fixed"
-            :class="sidebarOpen ? 'translate-x-64' : 'translate-x-0'">
-            <div class="p-6">
-                <h2 class="text-xl">@yield('page-title')</h2>
+        <div class="flex flex-1 overflow-hidden mt-16">
+            <!-- Sidebar -->
+            @include('back.dashboard.sidebar')
+
+            <!-- Main content -->
+            <main class="flex-1 overflow-auto p-4 lg:ml-64 sm:ml-0 md:ml-64">
+                <h2 class="font-semibold">@yield('page-title')</h2>
                 @yield('body')
-            </div>
-        </main>
+            </main>
+        </div>
     </div>
-
-    <!-- Bootstrap JS Bundle with Popper -->
-    {{-- <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="https://cdn.datatables.net/2.1.3/js/dataTables.js"></script>
-    <script src="https://cdn.datatables.net/2.1.3/js/dataTables.tailwindcss.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.3"></script> --}}
 </body>
+
+</html>
+
 
 </html>

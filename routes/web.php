@@ -2,8 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RoleMiddleware;
-use App\Http\Controllers\AppController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AppController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\BookController;
 
 Route::get('/', function () {
@@ -22,7 +23,13 @@ Route::middleware('auth')->group(function () {
 
 
 Route::middleware(['auth', RoleMiddleware::class . ':super_admin'])->group(function () {
-    Route::get('/dashboard', [AppController::class,'index'])->name('index');
+    Route::get('/dashboard', [AppController::class,'index'])->name('dashboard.index');
+
+    //User Routes
+    Route::get('/user-management', [UserController::class, 'index'])->name('user.index');
+    Route::post('/user-management/process/add', [UserController::class, 'store'])->name('user.store');
+
+    // Book Routes
     Route::get('/book', [BookController::class, 'index'])->name('book.index');
 });
 

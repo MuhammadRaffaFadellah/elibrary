@@ -1,8 +1,7 @@
 @extends('back.dashboard.master')
-@section('page-title', 'Dashboard')
-@section('title-record', 'Dashboard')
+@section('name', 'Dashboard - Elibrary')
+@section('page-title', 'Dashboard') 
 @section('body')
-
     <p>
         {{ $user->name }}'s Dashboard
     </p>
