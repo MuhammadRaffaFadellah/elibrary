@@ -12,10 +12,14 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::where('role_id', 3)->paginate(5);
-        return view("back.user-management.index-user", compact("users"));
+        $order = $request->get('order' , 'desc');
+
+        $users = User::where('role_id', 3)->orderBy('name', $order)->paginate(7)->appends([
+            'order' => $order
+        ]);
+        return view("back.user-management.index-user", compact("users", "order"));
     }
 
     /**
@@ -100,7 +104,7 @@ class UserController extends Controller
                 $data['password'] = bcrypt($request->password);
             }
             $user->update($data);
-
+            
             return redirect()->back()->with('success', 'User successfully updated.');
 
         } catch (QueryException $e) {

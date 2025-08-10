@@ -1,5 +1,5 @@
 @extends('back.dashboard.master')
-@section('name', 'User Management - Elibrary')
+@section('name', 'User Management - Ecommerce')
 @section('page-title', 'User Management')
 @section('page-description', 'User management table')
 @section('body')
@@ -21,13 +21,36 @@
         }
     </style>
 
-    <div class="wrapper flex mt-5 align-items-end justify-end">
+    <div class="wrapper flex mt-3 mb-2.5 align-items-end justify-end gap-2">
+
+
+
+        <!-- Button ASC/DESC -->
+        <div x-data="{ open: false }" class="relative">
+            <button @click="open = !open"
+                class="px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 flex items-center gap-2">
+                Urutkan
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </button>
+
+            <div x-show="open" @click.away="open = false"
+                class="absolute mt-2 w-40 bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200 z-50">
+                <a href="{{ route('user.index', ['order' => 'asc']) }}" class="block px-4 py-2 hover:bg-gray-100">
+                    Urutkan A-Z ⬆️
+                </a>
+                <a href="{{ route('user.index', ['order' => 'desc']) }}" class="block px-4 py-2 hover:bg-gray-100">
+                    Urutkan Z-A ⬇️
+                </a>
+            </div>
+        </div>
+
         <!-- Button Tambah -->
         <button id="openAddModal"
-            class="px-4 py-2 rounded-md bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600  text-white font-medium shadow-md transition duration-250">
+            class="px-4 py-2.5 rounded-md bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600  text-white font-medium shadow-md transition duration-250">
             <i class="fa-solid fa-plus"></i>
         </button>
-
     </div>
     <div class="overflow-x-auto">
         <!-- Tabel User -->
@@ -40,7 +63,7 @@
                     </th>
                     <th scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Nama
+                        Name
                     </th>
                     <th scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -64,7 +87,7 @@
                 @forelse ($users as $user)
                     <tr class="hover:bg-gray-100">
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-center">
-                            {{ $loop->iteration }}.
+                            {{ $loop->iteration + ($users->currentPage() - 1) * $users->perPage() }}.
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $user->name }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $user->username }}</td>
@@ -74,7 +97,8 @@
                         <td
                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 flex space-x-2 align-items-center justify-center">
                             <!-- Tombol Edit -->
-                            <button type="button" data-edit-user="{{ $user->id }}" data-user='@json($user)'
+                            <button type="button" data-edit-user="{{ $user->id }}"
+                                data-user='@json($user)'
                                 class="inline-flex items-center px-3 py-2 bg-blue-500 text-white text-sm font-medium rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transition duration-200">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </button>
@@ -84,7 +108,8 @@
                                 method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <button type="button" onclick="confirmDelete('{{ $user->name }}' , {{ $user->id }})"
+                                <button type="button"
+                                    onclick="confirmDelete('{{ $user->name }}' , {{ $user->id }})"
                                     class="inline-flex items-center px-3 py-2 bg-red-500 text-white text-sm font-medium rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 transition duration-200">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
@@ -97,10 +122,10 @@
                     </tr>
                 @endforelse
             </tbody>
-            <div class="mt-4">
-                {{ $users->links() }}
-            </div>
         </table>
+        <div class="mt-4">
+            {{ $users->links() }}
+        </div>
 
         <!-- Card tambah data user -->
         <div>
@@ -134,11 +159,13 @@
                 <button type="button" class="ml-auto text-green-500 hover:text-green-700 focus:outline-none"
                     onclick="document.getElementById('toast-success').remove()">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414
-                                                                                        1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
-                                                                                        1.414L10 11.414l-4.293 4.293a1 1 0
-                                                                                        01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
-                                                                                        010-1.414z" clip-rule="evenodd" />
+                        <path fill-rule="evenodd"
+                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414
+                                                                                                                                    1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
+                                                                                                                                    1.414L10 11.414l-4.293 4.293a1 1 0
+                                                                                                                                    01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
+                                                                                                                                    010-1.414z"
+                            clip-rule="evenodd" />
                     </svg>
                 </button>
             </div>
@@ -182,11 +209,13 @@
                 <button type="button" class="ml-auto text-green-500 hover:text-green-700 focus:outline-none"
                     onclick="document.getElementById('toast-deleted').remove()">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414
-                                                                                        1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
-                                                                                        1.414L10 11.414l-4.293 4.293a1 1 0
-                                                                                        01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
-                                                                                        010-1.414z" clip-rule="evenodd" />
+                        <path fill-rule="evenodd"
+                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414
+                                                                                                                                    1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
+                                                                                                                                    1.414L10 11.414l-4.293 4.293a1 1 0
+                                                                                                                                    01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
+                                                                                                                                    010-1.414z"
+                            clip-rule="evenodd" />
                     </svg>
                 </button>
             </div>
@@ -227,11 +256,13 @@
                 <button type="button" class="ml-auto text-red-500 hover:text-red-700 focus:outline-none"
                     onclick="document.getElementById('toast-error').remove()">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414
-                                                                                        1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
-                                                                                        1.414L10 11.414l-4.293 4.293a1 1 0
-                                                                                        01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
-                                                                                        010-1.414z" clip-rule="evenodd" />
+                        <path fill-rule="evenodd"
+                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414
+                                                                                                                                    1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
+                                                                                                                                    1.414L10 11.414l-4.293 4.293a1 1 0
+                                                                                                                                    01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
+                                                                                                                                    010-1.414z"
+                            clip-rule="evenodd" />
                     </svg>
                 </button>
             </div>
@@ -345,6 +376,7 @@
         }
     </script>
 
+    <!-- Edit Modal Script -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const editButton = document.querySelectorAll('[data-edit-user]');
@@ -365,18 +397,17 @@
             }
 
             editButton.forEach(button => {
-                button.addEventListener('click', function () {
+                button.addEventListener('click', function() {
                     const userId = this.getAttribute('data-edit-user');
                     showEditModal();
 
-                    // Isi input form dengan data user
                     const user = JSON.parse(this.getAttribute('data-user'));
-                    document.querySelector('input[name="name"]').value = user.name;
-                    document.querySelector('input[name="username"]').value = user.username;
-                    document.querySelector('input[name="email"]').value = user.email;
-                    document.querySelector('form#userEditForm').action = `/user-management/process/edit/${user.id}`;
-                    // Kosongkan password saat edit
-                    document.querySelector('input[name="password"]').value = '';
+                    editModal.querySelector('input[name="name"]').value = user.name;
+                    editModal.querySelector('input[name="username"]').value = user.username;
+                    editModal.querySelector('input[name="email"]').value = user.email;
+                    editModal.querySelector('form#userEditForm').action =
+                        `/user-management/process/edit/${user.id}`;
+                    editModal.querySelector('input[name="password"]').value = '';
                 })
             })
 
@@ -387,6 +418,44 @@
                 if (e.target === editModal) {
                     hideEditModal();
                 }
+            })
+        })
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoader', function() {
+            const sortButtons = document.querySelectorAll('.sort-btn')
+
+            sortButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const column = this.dataset.column
+                    let order = this.dataset.order
+                    const table = document.querySelector('table tbody')
+                    const rows = Array.from(table.querySelectorAll('tr'))
+
+                    const th = this.closest('th')
+                    const columnIndex = Array.from(th.parentNode.children).indexOf(th)
+
+                    rows.sort((a, b) => {
+                        const aText = a.children[columnIndex].innerText.trim().toLowerCase()
+                        const bText = b.children[columnIndex].innerText.trim().toLowerCase()
+
+                        return order === 'asc' ?
+                            aText.localeCompare(bText) :
+                            bText.localeCompare(aText)
+                    })
+
+                    if (order === 'asc') {
+                        this.dataset.order = 'desc'
+                        this.innetHTML = '<i class="fa-solid fa-arrow-down-short-wide"></i>'
+                    } else {
+                        this.dataset.order = 'asc'
+                        this.innerHTML = '<i class="fa-solid fa-arrow-down-wide-short"></i>'
+                    }
+
+                    table.innerHTML = ''
+                    rows.forEach(row => table.appendChild(row))
+                })
             })
         })
     </script>
