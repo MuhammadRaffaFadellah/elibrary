@@ -8,6 +8,10 @@
     <meta name="referrer" content="always">
     <title>@yield('name')</title>
 
+    <!-- SweetAlert2 -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.22.3/dist/sweetalert2.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/b628ba4512.js" crossorigin="anonymous"></script>
 
@@ -37,6 +41,7 @@
             <!-- Main content -->
             <main class="flex-1 overflow-auto p-4 lg:ml-64 sm:ml-0 md:ml-64">
                 <h2 class="font-semibold">@yield('page-title')</h2>
+                <p class="text-xs text-gray-400">@yield('page-description')</p>
                 @yield('body')
             </main>
         </div>

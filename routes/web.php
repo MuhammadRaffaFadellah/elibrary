@@ -28,6 +28,8 @@ Route::middleware(['auth', RoleMiddleware::class . ':super_admin'])->group(funct
     //User Routes
     Route::get('/user-management', [UserController::class, 'index'])->name('user.index');
     Route::post('/user-management/process/add', [UserController::class, 'store'])->name('user.store');
+    Route::put('/user-management/process/edit/{id}', [UserController::class, 'update'])->name('user.update');
+    Route::delete('/user-management/delete/{id}', [UserController::class, 'destroy'])->name('user.delete');
 
     // Book Routes
     Route::get('/book', [BookController::class, 'index'])->name('book.index');

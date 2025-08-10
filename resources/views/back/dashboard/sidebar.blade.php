@@ -7,6 +7,7 @@
         <a href="{{ route('dashboard.index') }}" @click="setActive('Dashboard')"
             :class="active === 'Dashboard' ? 'bg-white font-semibold text-gray-900' : 'hover:bg-gray-100'"
             class="block p-2 rounded transition">
+            <i class="fa-solid fa-house me-2"></i>
             Dashboard
         </a>
 
@@ -16,11 +17,11 @@
                 :class="(openDropdown === 'book' && !['All Books', 'Add Book'].includes(active)) ?
                 'bg-white font-semibold text-gray-900' :
                 'hover:bg-gray-100'"
-                class="w-full text-left p-2 rounded transition flex justify-between items-center">
-                Book
+                class="w-full text-left p-2 rounded transition flex items-center">
+                <i class="fa-solid fa-book-open me-3"></i> Book
                 <svg :class="openDropdown === 'book' ? 'rotate-90' : ''"
-                    class="w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" stroke-width="2"
-                    viewBox="0 0 24 24">
+                    class="w-4 h-4 ms-auto transform transition-transform" fill="none" stroke="currentColor"
+                    stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                 </svg>
             </button>
@@ -48,10 +49,10 @@
                         :class="(openDropdown === 'user-management') ?
                         'bg-white font-semibold text-gray-900' :
                         'hover:bg-gray-100'"
-                        class="w-full text-left p-2 rounded transition flex justify-between items-center">
-                        Users Management
+                        class="w-full text-left p-2 rounded transition flex items-center">
+                        <i class="fa-solid fa-users me-3"></i> User Management
                         <svg :class="openDropdown === 'user-management' ? 'rotate-90' : ''"
-                            class="w-4 h-4 transform transition-transform" fill="none" stroke="currentColor"
+                            class="w-4 h-4 ms-auto transform transition-transform" fill="none" stroke="currentColor"
                             stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                         </svg>
@@ -62,12 +63,12 @@
                         <a href="" @click="active = 'Admin'"
                             :class="active === 'Admin' ? 'bg-white font-semibold text-gray-900' : 'hover:bg-gray-100'"
                             class="block p-2 rounded transition">
-                            Admin
+                            <i class="fa-solid fa-user-tie me-1"></i> Admin
                         </a>
                         <a href="{{ route('user.index') }}" @click="setActive('Users')"
                             :class="active === 'Users' ? 'bg-white font-semibold text-gray-900' : 'hover:bg-gray-100'"
                             class="block p-2 rounded transition">
-                            Users
+                            <i class="fa-solid fa-user me-1"></i> User
                         </a>
                     </div>
                 </div>
@@ -76,7 +77,7 @@
                 <a href="{{ route('user.index') }}" @click="setActive('Users')"
                     :class="active === 'Users' ? 'bg-white font-semibold text-gray-900' : 'hover:bg-gray-100'"
                     class="block p-2 rounded transition">
-                    Users
+                    <i class="fa-solid fa-user me-1"></i> User
                 </a>
             @endif
         @endauth

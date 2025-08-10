@@ -1,10 +1,14 @@
 @extends('back.dashboard.master')
 @section('name', 'Dashboard - Elibrary')
-@section('page-title', 'Dashboard') 
+@section('page-title', 'Dashboard')
+@section('page-description')
+@if (Auth::user()->role->name === 'super_admin')
+    Welcome, Super Admin!
+@elseif (Auth::user()->role->name === 'admin')
+    Welcome, Admin!
+@endif
+@endsection
 @section('body')
-    <p>
-        {{ $user->name }}'s Dashboard
-    </p>
     <div class="container mt-10">
         <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 ml-10 lg:ml-0 md:ml-10 sm:ml-5">
 

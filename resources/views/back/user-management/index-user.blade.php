@@ -1,6 +1,7 @@
 @extends('back.dashboard.master')
 @section('name', 'User Management - Elibrary')
-@section('page-title', 'Dashboard > User Management')
+@section('page-title', 'User Management')
+@section('page-description', 'User management table')
 @section('body')
     <style>
         @keyframes slideUp {
@@ -20,11 +21,11 @@
         }
     </style>
 
-    <div class="wrapper flex mt-5 mb-5 align-items-end justify-end">
+    <div class="wrapper flex mt-5 align-items-end justify-end">
         <!-- Button Tambah -->
-        <button id="openFormButton"
+        <button id="openAddModal"
             class="px-4 py-2 rounded-md bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600  text-white font-medium shadow-md transition duration-250">
-            Tambah
+            <i class="fa-solid fa-plus"></i>
         </button>
 
     </div>
@@ -37,7 +38,8 @@
                         class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                         No
                     </th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Nama
                     </th>
                     <th scope="col"
@@ -59,7 +61,7 @@
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-                @foreach ($users as $user)
+                @forelse ($users as $user)
                     <tr class="hover:bg-gray-100">
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-center">
                             {{ $loop->iteration }}.
@@ -72,25 +74,32 @@
                         <td
                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 flex space-x-2 align-items-center justify-center">
                             <!-- Tombol Edit -->
-                            <a href=""
-                                class="inline-flex items-center px-3 py-1.5 bg-yellow-500 text-white text-sm font-medium rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition">
+                            <button type="button" data-edit-user="{{ $user->id }}" data-user='@json($user)'
+                                class="inline-flex items-center px-3 py-2 bg-blue-500 text-white text-sm font-medium rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transition duration-200">
                                 <i class="fa-solid fa-pen-to-square"></i>
-                            </a>
+                            </button>
 
                             <!-- Tombol Delete -->
-                            <form action="" method="POST"
-                                onsubmit="return confirm('Are you sure you want to delete this user?')">
+                            <form id="deleteForm-{{ $user->id }}" action="{{ route('user.delete', $user->id) }}"
+                                method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit"
-                                    class="inline-flex items-center px-3 py-1.5 bg-red-500 text-white text-sm font-medium rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 transition">
+                                <button type="button" onclick="confirmDelete('{{ $user->name }}' , {{ $user->id }})"
+                                    class="inline-flex items-center px-3 py-2 bg-red-500 text-white text-sm font-medium rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 transition duration-200">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
                             </form>
                         </td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="6" class="text-center text-xs text-gray-400 py-2">Tidak ada user terdaftar.</td>
+                    </tr>
+                @endforelse
             </tbody>
+            <div class="mt-4">
+                {{ $users->links() }}
+            </div>
         </table>
 
         <!-- Card tambah data user -->
@@ -100,7 +109,7 @@
 
         <!-- Card edit data user -->
         <div>
-            {{-- @include('') --}}
+            @include('back.user-management.edit-user')
         </div>
 
         <!-- Toast Sukses -->
@@ -126,10 +135,10 @@
                     onclick="document.getElementById('toast-success').remove()">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414
-                            1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
-                            1.414L10 11.414l-4.293 4.293a1 1 0
-                            01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
-                            010-1.414z" clip-rule="evenodd" />
+                                                                                        1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
+                                                                                        1.414L10 11.414l-4.293 4.293a1 1 0
+                                                                                        01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
+                                                                                        010-1.414z" clip-rule="evenodd" />
                     </svg>
                 </button>
             </div>
@@ -150,12 +159,105 @@
                 })
             </script>
         @endif
+
+        <!-- Toast Delete -->
+        @if (session('deleted'))
+            <div class="fixed bottom-5 right-5 z-50 flex items-center w-full max-w-xs p-4 text-green-800 bg-green-100 border border-green-400 rounded-lg shadow-md transition-opacity duration-500 opacity-0"
+                id="toast-deleted" role="alert">
+
+                <!-- Icon toast -->
+                <div class="flex-shrink-0 w-6 h-6 mr-3 animate-bounce-in">
+                    <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                </div>
+
+                <!-- Pesan deleted -->
+                <div class="text-sm text-green-500 font-medium flex-1">
+                    {{ session('deleted') }}
+                </div>
+
+                <!-- Button tutup -->
+                <button type="button" class="ml-auto text-green-500 hover:text-green-700 focus:outline-none"
+                    onclick="document.getElementById('toast-deleted').remove()">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414
+                                                                                        1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
+                                                                                        1.414L10 11.414l-4.293 4.293a1 1 0
+                                                                                        01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
+                                                                                        010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const toast = document.getElementById('toast-deleted');
+                    if (toast) {
+                        toast.classList.remove('opacity-0');
+                        toast.classList.add('opacity-100');
+
+                        // Otomatis hide after 5 detik
+                        setTimeout(() => {
+                            toast.classList.add('opacity-0');
+                            setTimeout(() => toast.remove(), 500);
+                        }, 5000);
+                    }
+                })
+            </script>
+        @endif
+
+        <!-- Toast Error -->
+        @if (session('error'))
+            <div class="fixed bottom-5 right-5 z-50 flex items-center w-full max-w-xs p-4 text-red-800 bg-red-100 border border-red-400 rounded-lg shadow-md transition-opacity duration-500 opacity-0"
+                id="toast-error" role="alert">
+
+                <!-- Icon toast -->
+                <div class="flex-shrink-0 w-6 h-6 mr-3 animate-bounce-in">
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+
+                <!-- Pesan deleted -->
+                <div class="text-xs text-red-500 font-medium flex-1">
+                    {{ session('error') }}
+                </div>
+
+                <!-- Button tutup -->
+                <button type="button" class="ml-auto text-red-500 hover:text-red-700 focus:outline-none"
+                    onclick="document.getElementById('toast-error').remove()">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414
+                                                                                        1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
+                                                                                        1.414L10 11.414l-4.293 4.293a1 1 0
+                                                                                        01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
+                                                                                        010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const toast = document.getElementById('toast-error');
+                    if (toast) {
+                        toast.classList.remove('opacity-0');
+                        toast.classList.add('opacity-100');
+
+                        // Otomatis hide after 5 detik
+                        setTimeout(() => {
+                            toast.classList.add('opacity-0');
+                            setTimeout(() => toast.remove(), 500);
+                        }, 5000);
+                    }
+                })
+            </script>
+        @endif
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const openButton = document.getElementById('openFormButton');
-            const modal = document.getElementById('userFormModal');
+            const openButton = document.getElementById('openAddModal');
+            const modal = document.getElementById('addUserModal');
             const modalContent = modal.querySelector('.modal-content');
             const closeButton = document.getElementById('closeFormButton');
             const cancelButton = document.getElementById('cancelButton');
@@ -181,5 +283,111 @@
                 }
             });
         });
+
+        // SweetAlert untuk session deleted
+        function confirmDelete(userName, userId) {
+            Swal.fire({
+                icon: "question",
+                title: `Delete ${userName}?`,
+                text: "Are you sure you want to delete this user?",
+                showConfirmButton: true,
+                showCancelButton: true,
+                confirmButtonText: `<i class="fa-solid fa-check"></i> Yes`,
+                confirmButtonColor: "#7ADAA5",
+                cancelButtonText: `<i class="fa-solid fa-xmark"></i> No`,
+                cancelButtonColor: "#D92C54",
+                customClass: {
+                    confirmButton: 'bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600',
+                    cancelButton: 'bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-600'
+                },
+                showClass: {
+                    popup: `
+                        animate__animated
+                        animate__fadeInUp
+                        animate__faster
+                    `
+                },
+                hideClass: {
+                    popup: `
+                        animate__animated
+                        animate__fadeOutDown
+                        animate__faster
+                    `
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Deleted!",
+                        text: "User has been deleted successfully.",
+                        timer: 5000,
+                        showConfirmButton: true,
+                        confirmButtoText: 'OK',
+                        customClass: {
+                            confirmButton: 'bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600',
+                        }
+                    }).then(() => {
+                        document.getElementById(`deleteForm-${userId}`).submit();
+                    })
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Cancelled!",
+                        text: "User deletion has been cancelled.",
+                        showConfirmButton: true,
+                        confirmButtonText: 'OK',
+                        customClass: {
+                            confirmButton: 'bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600',
+                        }
+                    });
+                }
+            })
+        }
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const editButton = document.querySelectorAll('[data-edit-user]');
+            const editModal = document.getElementById('editUserModal');
+            const editModalContent = editModal.querySelector('.edit-modal-content');
+            const closeEditButton = document.getElementById('closeEditFormButton');
+            const cancelEditButton = document.getElementById('cancelEditButton');
+
+            function showEditModal() {
+                editModal.classList.remove('hidden');
+                editModalContent.classList.remove('slide-up');
+                void editModalContent.offsetWidth;
+                editModalContent.classList.add('slide-up');
+            }
+
+            function hideEditModal() {
+                editModal.classList.add('hidden');
+            }
+
+            editButton.forEach(button => {
+                button.addEventListener('click', function () {
+                    const userId = this.getAttribute('data-edit-user');
+                    showEditModal();
+
+                    // Isi input form dengan data user
+                    const user = JSON.parse(this.getAttribute('data-user'));
+                    document.querySelector('input[name="name"]').value = user.name;
+                    document.querySelector('input[name="username"]').value = user.username;
+                    document.querySelector('input[name="email"]').value = user.email;
+                    document.querySelector('form#userEditForm').action = `/user-management/process/edit/${user.id}`;
+                    // Kosongkan password saat edit
+                    document.querySelector('input[name="password"]').value = '';
+                })
+            })
+
+            closeEditButton.addEventListener('click', hideEditModal);
+            cancelEditButton.addEventListener('click', hideEditModal);
+
+            editModal.addEventListener('click', (e) => {
+                if (e.target === editModal) {
+                    hideEditModal();
+                }
+            })
+        })
     </script>
 @endsection
