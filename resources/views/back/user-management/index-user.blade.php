@@ -21,16 +21,32 @@
         }
     </style>
 
-    <div class="wrapper flex mt-3 mb-2.5 align-items-end justify-end gap-2">
+    <div class="wrapper flex mt-3 mb-2.5 gap-2">
+        <form action="{{ route('user.index') }}" method="GET" class="flex flex-grow">
+            <input type="hidden" name="order" value="{{ request('order', 'desc') }}" />
+            <input type="search" name="search" placeholder="Search . . ."
+                class="flex-grow rounded-l-md border border-gray-300 px-4 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                value="{{ request('search', '') }}">
+            <button type="submit"
+                class="px-4 py-2 rounded-r-md bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 text-white shadow-md transition duration-200 border border-blue-500">
+                Search
+            </button>
+        </form>
 
 
+        <!-- Button export -->
+        <button type="button"
+            class="ms-auto px-4 py-2 rounded-md bg-gray-400 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 text-white shadow-md transition duration-200">
+            <i class="fa-solid fa-print"></i> Export Excel
+        </button>
 
         <!-- Button ASC/DESC -->
         <div x-data="{ open: false }" class="relative">
             <button @click="open = !open"
-                class="px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 flex items-center gap-2">
-                Urutkan
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                class="px-5 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 flex items-center gap-2">
+                Sort
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                 </svg>
             </button>
@@ -38,17 +54,17 @@
             <div x-show="open" @click.away="open = false"
                 class="absolute mt-2 w-40 bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200 z-50">
                 <a href="{{ route('user.index', ['order' => 'asc']) }}" class="block px-4 py-2 hover:bg-gray-100">
-                    Urutkan A-Z ⬆️
+                    Sort A-Z ⬆️
                 </a>
                 <a href="{{ route('user.index', ['order' => 'desc']) }}" class="block px-4 py-2 hover:bg-gray-100">
-                    Urutkan Z-A ⬇️
+                    Sort Z-A ⬇️
                 </a>
             </div>
         </div>
 
         <!-- Button Tambah -->
         <button id="openAddModal"
-            class="px-4 py-2.5 rounded-md bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600  text-white font-medium shadow-md transition duration-250">
+            class="px-4 py-2 rounded-md bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600  text-white font-medium shadow-md transition duration-250">
             <i class="fa-solid fa-plus"></i>
         </button>
     </div>
@@ -161,10 +177,10 @@
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd"
                             d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414
-                                                                                                                                    1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
-                                                                                                                                    1.414L10 11.414l-4.293 4.293a1 1 0
-                                                                                                                                    01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
-                                                                                                                                    010-1.414z"
+                                                                                                                                                1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
+                                                                                                                                                1.414L10 11.414l-4.293 4.293a1 1 0
+                                                                                                                                                01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
+                                                                                                                                                010-1.414z"
                             clip-rule="evenodd" />
                     </svg>
                 </button>
@@ -211,10 +227,10 @@
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd"
                             d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414
-                                                                                                                                    1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
-                                                                                                                                    1.414L10 11.414l-4.293 4.293a1 1 0
-                                                                                                                                    01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
-                                                                                                                                    010-1.414z"
+                                                                                                                                                1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
+                                                                                                                                                1.414L10 11.414l-4.293 4.293a1 1 0
+                                                                                                                                                01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
+                                                                                                                                                010-1.414z"
                             clip-rule="evenodd" />
                     </svg>
                 </button>
@@ -258,10 +274,10 @@
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd"
                             d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414
-                                                                                                                                    1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
-                                                                                                                                    1.414L10 11.414l-4.293 4.293a1 1 0
-                                                                                                                                    01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
-                                                                                                                                    010-1.414z"
+                                                                                                                                                1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
+                                                                                                                                                1.414L10 11.414l-4.293 4.293a1 1 0
+                                                                                                                                                01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
+                                                                                                                                                010-1.414z"
                             clip-rule="evenodd" />
                     </svg>
                 </button>
@@ -418,44 +434,6 @@
                 if (e.target === editModal) {
                     hideEditModal();
                 }
-            })
-        })
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoader', function() {
-            const sortButtons = document.querySelectorAll('.sort-btn')
-
-            sortButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const column = this.dataset.column
-                    let order = this.dataset.order
-                    const table = document.querySelector('table tbody')
-                    const rows = Array.from(table.querySelectorAll('tr'))
-
-                    const th = this.closest('th')
-                    const columnIndex = Array.from(th.parentNode.children).indexOf(th)
-
-                    rows.sort((a, b) => {
-                        const aText = a.children[columnIndex].innerText.trim().toLowerCase()
-                        const bText = b.children[columnIndex].innerText.trim().toLowerCase()
-
-                        return order === 'asc' ?
-                            aText.localeCompare(bText) :
-                            bText.localeCompare(aText)
-                    })
-
-                    if (order === 'asc') {
-                        this.dataset.order = 'desc'
-                        this.innetHTML = '<i class="fa-solid fa-arrow-down-short-wide"></i>'
-                    } else {
-                        this.dataset.order = 'asc'
-                        this.innerHTML = '<i class="fa-solid fa-arrow-down-wide-short"></i>'
-                    }
-
-                    table.innerHTML = ''
-                    rows.forEach(row => table.appendChild(row))
-                })
             })
         })
     </script>

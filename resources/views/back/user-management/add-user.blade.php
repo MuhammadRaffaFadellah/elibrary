@@ -16,7 +16,7 @@
                     <label class="block text-sm font-medium text-gray-700 mb-1 uppercase">Name <span
                             class="text-red-700">*</span></label>
                     <input type="text" name="name" required placeholder="Name . . ."
-                    oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')"
+                        oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')"
                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-green-200
                         placeholder:text-gray-400 placeholder:opacity-75">
                 </div>
@@ -38,11 +38,11 @@
                 </div>
 
                 <div class="mb-4 relative">
-                    <label class="block text-sm font-medium text-gray-700 mb-1 uppercase">Password 
+                    <label class="block text-sm font-medium text-gray-700 mb-1 uppercase">Password
                         <span class="text-red-700">*</span> </label>
 
                     <!-- Input password -->
-                    <input type="password" name="password" id="password-user" required placeholder="Password . . ."
+                    <input type="password" name="password" id="password-user-add" required placeholder="Password . . ."
                         class="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md focus:ring focus:ring-green-200
                             placeholder:text-gray-400 placeholder:opacity-75">
 
@@ -75,15 +75,18 @@
 </div>
 
 <script>
-    const passwordUserInput = document.getElementById('password-user');
-    const passwordUserError = document.getElementById('password-user-error');
+    document.addEventListener('DOMContentLoaded', () => {
 
-    passwordUserInput.addEventListener('input', function() {
-        if (passwordUserInput.value.length < 8) {
-            passwordUserError.classList.remove('hidden');
-        } else {
-            passwordUserError.classList.add('hidden');
-        }
+        const passwordUserInput = document.getElementById('password-user-add');
+        const passwordUserError = document.getElementById('password-user-error');
+
+        passwordUserInput.addEventListener('input', function() {
+            if (passwordUserInput.value.length < 8) {
+                passwordUserError.classList.remove('hidden');
+            } else {
+                passwordUserError.classList.add('hidden');
+            }
+        })
     })
 </script>
 

@@ -34,7 +34,7 @@
                     <label class="block text-sm font-medium text-gray-700 mb-1 uppercase">Password</label>
 
                     <!-- input password -->
-                    <input type="password" name="password" id="password-user" placeholder="New Password . . ."
+                    <input type="password" name="password" id="password-user-edit" placeholder="New Password . . ."
                         class="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md focus:ring focus:ring-green-200
                             placeholder:text-gray-400 placeholder:opacity-75">
 
@@ -65,39 +65,41 @@
     </div>
 </div>
 
-<script>
-    const passwordUserInput = document.getElementById('password-user');
-    const passwordUserError = document.getElementById('password-user-error');
+    <script>
+        const passwordUserInput = document.getElementById('password-user-edit');
+        const passwordUserError = document.getElementById('password-user-error');
 
-    passwordUserInput.addEventListener('input', function() {
-        if (passwordUserInput.value.length < 8) {
-            passwordUserError.classList.remove('hidden');
-        } else {
-            passwordUserError.classList.add('hidden');
-        }
-    })
-</script>
+        passwordUserInput.addEventListener('input', function() {
+            if (passwordUserInput.value.length < 8) {
+                passwordUserError.classList.remove('hidden');
+            } else {
+                passwordUserError.classList.add('hidden');
+            }
+        })
+    </script>
 
-<script>
-    const passwordInput = document.getElementById('password-user');
-    const togglePassword = document.getElementById('togglePassword');
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const passwordInput = document.getElementById('password-user-edit');
+            const togglePassword = document.getElementById('togglePassword');
 
-    togglePassword.addEventListener('click', () => {
-        const isPassword = passwordInput.type === 'password';
-        passwordInput.type = isPassword ? 'text' : 'password';
+            togglePassword.addEventListener('click', () => {
+                const isPassword = passwordInput.type === 'password';
+                passwordInput.type = isPassword ? 'text' : 'password';
 
-        // Ganti icon dan warna
-        togglePassword.classList.toggle('fa-eye');
-        togglePassword.classList.toggle('fa-eye-slash');
+                // Ganti icon dan warna
+                togglePassword.classList.toggle('fa-eye');
+                togglePassword.classList.toggle('fa-eye-slash');
 
-        if (!isPassword) {
-            // Mode sembunyikan password
-            togglePassword.classList.remove('text-green-500');
-            togglePassword.classList.add('text-gray-500');
-        } else {
-            // Mode lihat password
-            togglePassword.classList.remove('text-gray-500');
-            togglePassword.classList.add('text-green-500');
-        }
-    });
-</script>
+                if (!isPassword) {
+                    // Mode sembunyikan password
+                    togglePassword.classList.remove('text-green-500');
+                    togglePassword.classList.add('text-gray-500');
+                } else {
+                    // Mode lihat password
+                    togglePassword.classList.remove('text-gray-500');
+                    togglePassword.classList.add('text-green-500');
+                }
+            });
+        })
+    </script>

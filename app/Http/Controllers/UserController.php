@@ -14,12 +14,25 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $order = $request->get('order' , 'desc');
+        $order = $request->get('order', 'desc');
+        $search = $request->get('search');
 
-        $users = User::where('role_id', 3)->orderBy('name', $order)->paginate(7)->appends([
-            'order' => $order
+        // Query
+        $query = User::where('role_id', 3);
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orwhere('username', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%");
+            });
+        }
+
+        $users = $query->orderBy('name', $order)->paginate(7)->appends([
+            'order'     => $order,
+            'search'    => $search,
         ]);
-        return view("back.user-management.index-user", compact("users", "order"));
+
+        return view('back.user-management.index-user', compact('users', 'order', 'search'));
     }
 
     /**
@@ -104,9 +117,8 @@ class UserController extends Controller
                 $data['password'] = bcrypt($request->password);
             }
             $user->update($data);
-            
-            return redirect()->back()->with('success', 'User successfully updated.');
 
+            return redirect()->back()->with('success', 'User successfully updated.');
         } catch (QueryException $e) {
             Log::error('Failed to update user:') . $e->getMessage();
 
