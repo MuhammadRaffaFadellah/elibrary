@@ -5,6 +5,7 @@ use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BookController;
 
 Route::get('/', function () {
@@ -32,6 +33,9 @@ Route::middleware(['auth', RoleMiddleware::class . ':super_admin'])->group(funct
     Route::post('/user-management/process/add', [UserController::class, 'store'])->name('user.store');
     Route::put('/user-management/process/edit/{id}', [UserController::class, 'update'])->name('user.update');
     Route::delete('/user-management/delete/{id}', [UserController::class, 'destroy'])->name('user.delete');
+
+    // Admin Routes
+    Route::get('/admin-management', [AdminController::class, 'index'])->name('user.index');
 
     // Book Routes
     Route::get('/book', [BookController::class, 'index'])->name('book.index');

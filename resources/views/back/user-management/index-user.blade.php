@@ -1,5 +1,5 @@
 @extends('back.dashboard.master')
-@section('name', 'User Management - Ecommerce')
+@section('name', 'User Management - Elibrary')
 @section('page-title', 'User Management')
 @section('page-description', 'User management table')
 @section('body')
@@ -32,7 +32,6 @@
                 Search
             </button>
         </form>
-
 
         <!-- Button export -->
         <button type="button"
