@@ -14,7 +14,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $order = $request->get('order', 'desc');
+        $order = $request->get('order', 'asc');
         $search = $request->get('search');
 
         // Query
@@ -125,7 +125,6 @@ class UserController extends Controller
             if ($e->getCode() === '23000') {
                 return redirect()->back()->with('error', 'Failed to update user: Email already existed.');
             }
-
             return redirect()->back()->with('error', 'Failed to update user: due to a database error.');
         }
     }
@@ -134,6 +133,6 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $user->delete();
-        return redirect()->back()->with('deleted', 'User berhasil dihapus');
+        return redirect()->back()->with('deleted', 'User deleted successfully');
     }
 }

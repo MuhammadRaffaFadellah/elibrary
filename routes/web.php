@@ -19,6 +19,9 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin,super_admin'])->group
     Route::post('/user-management/process/add', [UserController::class, 'store'])->name('user.store');
     Route::put('/user-management/process/edit/{id}', [UserController::class, 'update'])->name('user.update');
     Route::delete('/user-management/delete/{id}', [UserController::class, 'destroy'])->name('user.delete');
+
+    // Book Routes
+    Route::get('/book', [BookController::class, 'index'])->name('book.index');
 });
 
 
@@ -31,10 +34,8 @@ Route::middleware(['auth', RoleMiddleware::class . ':super_admin'])->group(funct
     // Admin Routes
     Route::get('/admin-management', [AdminController::class, 'index'])->name('admin.index');
     Route::post('/admin-management/process/add', [AdminController::class, 'store'])->name('admin.store');
+    Route::put('/admin-management/process/edit/{id}', [AdminController::class, 'update'])->name('admin.update');
     Route::delete('/admin-management/delete/{id}', [AdminController::class, 'destroy'])->name('admin.delete');
-
-    // Book Routes
-    Route::get('/book', [BookController::class, 'index'])->name('book.index');
 });
 
 require __DIR__ . '/auth.php';

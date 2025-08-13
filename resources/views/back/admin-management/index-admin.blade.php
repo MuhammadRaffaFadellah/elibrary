@@ -21,7 +21,7 @@
         }
     </style>
     <div class="wrapper flex mt-3 mb-2.5 gap-2">
-        <form action="{{ route('user.index') }}" method="GET" class="flex flex-grow">
+        <form action="{{ route('admin.index') }}" method="GET" class="flex flex-grow">
             <input type="hidden" name="order" value="{{ request('order', 'desc') }}" />
             <input type="search" name="search" placeholder="Search . . ."
                 class="flex-grow rounded-l-md border border-gray-300 px-4 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
@@ -51,10 +51,10 @@
 
             <div x-show="open" @click.away="open = false"
                 class="absolute mt-2 w-40 bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200 z-50">
-                <a href="{{ route('user.index', ['order' => 'asc']) }}" class="block px-4 py-2 hover:bg-gray-100">
+                <a href="{{ route('admin.index', ['order' => 'asc']) }}" class="block px-4 py-2 hover:bg-gray-100">
                     Sort A-Z ⬆️
                 </a>
-                <a href="{{ route('user.index', ['order' => 'desc']) }}" class="block px-4 py-2 hover:bg-gray-100">
+                <a href="{{ route('admin.index', ['order' => 'desc']) }}" class="block px-4 py-2 hover:bg-gray-100">
                     Sort Z-A ⬇️
                 </a>
             </div>
@@ -112,7 +112,7 @@
                         <td
                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 flex space-x-2 align-items-center justify-center">
                             <!-- Tombol Edit -->
-                            <button type="button" data-edit-user="{{ $admin->id }}"
+                            <button type="button" data-edit-admin="{{ $admin->id }}"
                                 data-admin='@json($admin)'
                                 class="inline-flex items-center px-3 py-2 bg-blue-500 text-white text-sm font-medium rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transition duration-200">
                                 <i class="fa-solid fa-pen-to-square"></i>
@@ -148,9 +148,9 @@
         </div>
 
         <!-- Card edit data user -->
-        {{-- <div>
-            @include('back.user-management.edit-user')
-        </div> --}}
+        <div>
+            @include('back.admin-management.edit-admin')
+        </div>
 
         <!-- Toast Sukses -->
         @if (session('success'))
@@ -174,13 +174,11 @@
                 <button type="button" class="ml-auto text-green-500 hover:text-green-700 focus:outline-none"
                     onclick="document.getElementById('toast-success').remove()">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd"
-                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414
-                                                                                                                                                                1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
-                                                                                                                                                                1.414L10 11.414l-4.293 4.293a1 1 0
-                                                                                                                                                                01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
-                                                                                                                                                                010-1.414z"
-                            clip-rule="evenodd" />
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414
+                                        1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
+                                        1.414L10 11.414l-4.293 4.293a1 1 0
+                                        01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
+                                        010-1.414z" clip-rule="evenodd" />
                     </svg>
                 </button>
             </div>
@@ -224,13 +222,11 @@
                 <button type="button" class="ml-auto text-green-500 hover:text-green-700 focus:outline-none"
                     onclick="document.getElementById('toast-deleted').remove()">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd"
-                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414
-                                                                                                                                                                1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
-                                                                                                                                                                1.414L10 11.414l-4.293 4.293a1 1 0
-                                                                                                                                                                01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
-                                                                                                                                                                010-1.414z"
-                            clip-rule="evenodd" />
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414
+                                                1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
+                                                1.414L10 11.414l-4.293 4.293a1 1 0
+                                                01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
+                                                010-1.414z" clip-rule="evenodd" />
                     </svg>
                 </button>
             </div>
@@ -271,13 +267,11 @@
                 <button type="button" class="ml-auto text-red-500 hover:text-red-700 focus:outline-none"
                     onclick="document.getElementById('toast-error').remove()">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd"
-                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414
-                                                                                                                                                                1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
-                                                                                                                                                                1.414L10 11.414l-4.293 4.293a1 1 0
-                                                                                                                                                                01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
-                                                                                                                                                                010-1.414z"
-                            clip-rule="evenodd" />
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414
+                                    1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
+                                    1.414L10 11.414l-4.293 4.293a1 1 0
+                                    01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
+                                    010-1.414z" clip-rule="evenodd" />
                     </svg>
                 </button>
             </div>
@@ -336,7 +330,7 @@
             Swal.fire({
                 icon: "question",
                 title: `Delete ${userName}?`,
-                text: "Are you sure you want to delete this user?",
+                text: "Are you sure you want to delete this Admin?",
                 showConfirmButton: true,
                 showCancelButton: true,
                 confirmButtonText: `<i class="fa-solid fa-check"></i> Yes`,
@@ -366,7 +360,7 @@
                     Swal.fire({
                         icon: "success",
                         title: "Deleted!",
-                        text: "User has been deleted successfully.",
+                        text: "Admin has been deleted successfully.",
                         timer: 5000,
                         showConfirmButton: true,
                         confirmButtoText: 'OK',
@@ -380,7 +374,7 @@
                     Swal.fire({
                         icon: "error",
                         title: "Cancelled!",
-                        text: "User deletion has been cancelled.",
+                        text: "Admin deletion has been cancelled.",
                         showConfirmButton: true,
                         confirmButtonText: 'OK',
                         customClass: {
@@ -390,5 +384,51 @@
                 }
             })
         }
+    </script>
+
+    <!-- Edit Modal Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const editButton = document.querySelectorAll('[data-edit-admin]');
+            const editModal = document.getElementById('editAdminModal');
+            const editModalContent = editModal.querySelector('.edit-modal-content');
+            const closeEditButton = document.getElementById('closeEditFormButton');
+            const cancelEditButton = document.getElementById('cancelEditButton');
+
+            function showEditModal() {
+                editModal.classList.remove('hidden');
+                editModalContent.classList.remove('slide-up');
+                void editModalContent.offsetWidth;
+                editModalContent.classList.add('slide-up');
+            }
+
+            function hideEditModal() {
+                editModal.classList.add('hidden');
+            }
+
+            editButton.forEach(button => {
+                button.addEventListener('click', function() {
+                    const userId = this.getAttribute('data-edit-admin');
+                    showEditModal();
+
+                    const admin = JSON.parse(this.getAttribute('data-admin'));
+                    editModal.querySelector('input[name="name"]').value = admin.name;
+                    editModal.querySelector('input[name="username"]').value = admin.username;
+                    editModal.querySelector('input[name="email"]').value = admin.email;
+                    editModal.querySelector('form#adminEditForm').action =
+                        `/admin-management/process/edit/${admin.id}`;
+                    editModal.querySelector('input[name="password"]').value = '';
+                })
+            })
+
+            closeEditButton.addEventListener('click', hideEditModal);
+            cancelEditButton.addEventListener('click', hideEditModal);
+
+            editModal.addEventListener('click', (e) => {
+                if (e.target === editModal) {
+                    hideEditModal();
+                }
+            })
+        })
     </script>
 @endsection

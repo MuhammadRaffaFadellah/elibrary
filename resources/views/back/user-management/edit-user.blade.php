@@ -1,4 +1,4 @@
-<!-- Card to add a new user -->
+<!-- Card to edit user -->
 
 <div id="editUserModal" class="fixed flex inset-0 items-center justify-center bg-black bg-opacity-50 z-50 hidden">
 

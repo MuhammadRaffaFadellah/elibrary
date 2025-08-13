@@ -12,11 +12,27 @@ class AdminController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $admins = User::where("role_id", 2)->paginate(7);
+        $order = $request->get('order', 'asc');
+        $search = $request->get('search');
 
-        return view("back.admin-management.index-admin", compact("admins"));
+        // Query
+        $query = User::where('role_id', 2);
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('username', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%");
+            });
+        }
+
+        $admins = $query->orderBy('name', $order)->paginate(7)->appends([
+            $order,
+            $search,
+        ]);
+
+        return view("back.admin-management.index-admin", compact("admins", "order", "search"));
     }
 
     /**
@@ -82,7 +98,34 @@ class AdminController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try {
+            $request->validate([
+                "name"              => 'required|string|max:255',
+                'username'          => 'required|string|max:255',
+                'email'             => 'required|string|email|max:255',
+                'password'          => 'nullable|string|min:8',
+                'role_id'           => 'required|exists:roles,id',
+            ]);
+
+            $admin = User::findOrFail($id);
+
+            // Sama seperti di store, ini untuk menambah, tapi dimodifikasi karena 
+            // jika kita tidak ingin mengubah password, kita bisa mengosongkannya saja.
+            $data = $request->only(['name', 'username', 'email', 'role_id']);
+            if ($request->filled('password')) {
+                $data['password'] = bcrypt($request->password);
+            }
+
+            $admin->update($data);
+            return redirect()->back()->with('success', 'Admin successfully updated.');
+        } catch (QueryException $e) {
+            Log::error('Failed to update admin:') . $e->getMessage();
+
+            if ($e->getCode() === '23000') {
+                return redirect()->back()->with('error', 'Failed to update admin: Email already existed.');
+            }
+            return redirect()->back()->with('error', 'Failed to update admin: due to a database error.');
+        }
     }
 
     /**
@@ -92,6 +135,6 @@ class AdminController extends Controller
     {
         $admin = User::find($id);
         $admin->delete();
-        return redirect()->back()->with('deleted', 'Admin delete successfully');
+        return redirect()->back()->with('deleted', 'Admin deleted successfully');
     }
 }
