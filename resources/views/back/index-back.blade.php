@@ -1,5 +1,5 @@
 @extends('back.dashboard.master')
-@section('name', 'Dashboard - Ecommerce')
+@section('name', 'Dashboard - Elibrary')
 @section('page-title', 'Dashboard')
 @section('page-description')
     @if (Auth::user()->role->name === 'super_admin')

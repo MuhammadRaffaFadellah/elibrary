@@ -1,4 +1,3 @@
-<!-- Card to add a new user -->
 <div id="addUserModal" class="fixed flex inset-0 items-center justify-center bg-black bg-opacity-50 z-50 hidden">
 
     <div class="modal-content bg-white p-6 rounded-md shadow-md max-w-lg w-full fixed">
@@ -6,9 +5,8 @@
             class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-xl font-bold">&times;
         </button>
         <h2 class="text-lg font-semibold mb-4 uppercase">Add Data</h2>
-        <form action="{{ route('user.store') }}" method="POST">
+        <form action="{{ route('admin.store') }}" method="POST">
             @csrf
-
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
 
                 <div class="mb-4">
@@ -41,11 +39,11 @@
                         <span class="text-red-700">*</span> </label>
 
                     <!-- Input password -->
-                    <input type="password" name="password" id="password-user-add" required placeholder="Password . . ."
+                    <input type="password" name="password" id="password-admin-add" required placeholder="Password . . ."
                         class="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md focus:ring focus:ring-green-200
                             placeholder:text-gray-400 placeholder:opacity-75">
 
-                    <p id="password-user-error" class="text-red-500 text-xs mt-1 hidden">
+                    <p id="password-admin-error" class="text-red-500 text-xs mt-1 hidden">
                         Password must be at least 8 characters
                     </p>
 
@@ -57,7 +55,7 @@
                 </div>
             </div>
 
-            <input type="hidden" name="role_id" value="3">
+            <input type="hidden" name="role_id" value="2">
 
             <div class="flex justify-end gap-2 mt-4">
                 <button type="button" id="cancelButton"
@@ -76,39 +74,41 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
 
-        const passwordUserInput = document.getElementById('password-user-add');
-        const passwordUserError = document.getElementById('password-user-error');
+        const passwordAdminInput = document.getElementById('password-admin-add');
+        const passwordAdminError = document.getElementById('password-admin-error');
 
-        passwordUserInput.addEventListener('input', function() {
-            if (passwordUserInput.value.length < 8) {
-                passwordUserError.classList.remove('hidden');
+        passwordAdminInput.addEventListener('input', function() {
+            if (passwordAdminInput.value.length < 8) {
+                passwordAdminError.classList.remove('hidden');
             } else {
-                passwordUserError.classList.add('hidden');
+                passwordAdminError.classList.add('hidden');
             }
         })
     })
 </script>
 
 <script>
-    const passwordInput = document.getElementById('password-user');
-    const togglePassword = document.getElementById('togglePassword');
+    document.addEventListener('DOMContentLoaded', () => {
+        const passwordInput = document.getElementById('password-admin-add');
+        const togglePassword = document.getElementById('togglePassword');
 
-    togglePassword.addEventListener('click', () => {
-        const isPassword = passwordInput.type === 'password';
-        passwordInput.type = isPassword ? 'text' : 'password';
+        togglePassword.addEventListener('click', () => {
+            const isPassword = passwordInput.type === 'password';
+            passwordInput.type = isPassword ? 'text' : 'password';
 
-        // Ganti icon dan warna
-        togglePassword.classList.toggle('fa-eye');
-        togglePassword.classList.toggle('fa-eye-slash');
+            // Ganti icon dan warna
+            togglePassword.classList.toggle('fa-eye');
+            togglePassword.classList.toggle('fa-eye-slash');
 
-        if (!isPassword) {
-            // Mode sembunyikan password
-            togglePassword.classList.remove('text-green-500');
-            togglePassword.classList.add('text-gray-500');
-        } else {
-            // Mode lihat password
-            togglePassword.classList.remove('text-gray-500');
-            togglePassword.classList.add('text-green-500');
-        }
-    });
+            if (!isPassword) {
+                // Mode sembunyikan password
+                togglePassword.classList.remove('text-green-500');
+                togglePassword.classList.add('text-gray-500');
+            } else {
+                // Mode lihat password
+                togglePassword.classList.remove('text-gray-500');
+                togglePassword.classList.add('text-green-500');
+            }
+        });
+    })
 </script>

@@ -16,8 +16,11 @@ class RoleMiddleware
      */
     public function handle(Request $request, Closure $next, ...$roles): Response
     {
-        if (!Auth::check() || !in_array(Auth::user()->role->name, $roles)){
-            abort(403, 'Aaccess Denied');
+        $user = Auth::user();
+
+        // Pastikan user login dan punya role
+        if (!$user || !$user->role || !in_array($user->role->name, $roles)) {
+            abort(403, 'Access Denied');
         }
 
         return $next($request);

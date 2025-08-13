@@ -30,6 +30,16 @@
                         >
                             Dashboard
                         </a>
+                        <form method="POST" action="{{ route('logout') }}" @click="setActive('Logout')"
+            :class="active === 'Logout' ? 'bg-white font-semibold text-gray-900' : 'hover:bg-gray-100'"
+            class="block p-2 rounded transition">
+            @csrf
+            <x-dropdown-link :href="route('logout')"
+                onclick="event.preventDefault();
+                this.closest('form').submit();">
+                {{ __('Logout') }}
+            </x-dropdown-link>
+        </form>
                     @else
                         <a
                             href="{{ route('login') }}"

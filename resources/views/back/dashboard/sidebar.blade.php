@@ -60,7 +60,7 @@
 
                     <!-- Dropdown Items -->
                     <div x-show="openDropdown === 'user-management'" x-transition class="ml-4 mt-1 space-y-1">
-                        <a href="" @click="active = 'Admin'"
+                        <a href="{{ route('admin.index') }}" @click="setActive('Admin')"
                             :class="active === 'Admin' ? 'bg-white font-semibold text-gray-900' : 'hover:bg-gray-100'"
                             class="block p-2 rounded transition">
                             <i class="fa-solid fa-user-tie me-1"></i> Admin
@@ -88,11 +88,16 @@
             Settings
         </a>
 
-        <a href="#" @click="setActive('Logout')"
+        <form method="POST" action="{{ route('logout') }}" @click="setActive('Logout')"
             :class="active === 'Logout' ? 'bg-white font-semibold text-gray-900' : 'hover:bg-gray-100'"
             class="block p-2 rounded transition">
-            Logout
-        </a>
+            @csrf
+            <x-dropdown-link :href="route('logout')"
+                onclick="event.preventDefault();
+                this.closest('form').submit();">
+                {{ __('Logout') }}
+            </x-dropdown-link>
+        </form>
 
     </nav>
 </aside>
