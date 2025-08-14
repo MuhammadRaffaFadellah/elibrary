@@ -56,7 +56,7 @@
                     Number of overdue books
                 </p>
                 <p class="text-yellow-800 text-xl font-semibold mt-2 ">
-                    {{ $userCount }} Books
+                    0 Books
                 </p>
             </div>
 

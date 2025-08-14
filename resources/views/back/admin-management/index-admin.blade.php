@@ -1,7 +1,7 @@
 @extends('back.dashboard.master')
 @section('name', 'Admin Management - Elibrary')
 @section('page-title', 'Admin Management')
-@section('page-description', 'Admin Management Table')
+@section('page-description', 'Admin management table')
 @section('body')
     <style>
         @keyframes slideUp {

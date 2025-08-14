@@ -1,3 +1,7 @@
-<div>
-    <!-- Smile, breathe, and go slowly. - Thich Nhat Hanh -->
-</div>
+@extends('back.dashboard.master')
+@section('name', 'Books - Elibrary')
+@section('page-title', 'Dashboard')
+@section('page-description', 'Books table')
+@section('body')
+    
+@endsection

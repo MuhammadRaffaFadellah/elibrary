@@ -14,6 +14,7 @@ Route::get('/', function () {
 
 Route::middleware(['auth', RoleMiddleware::class . ':admin,super_admin'])->group(function () {
     Route::get('/dashboard', [AppController::class, 'index'])->name('dashboard.index');
+
     //User Routes
     Route::get('/user-management', [UserController::class, 'index'])->name('user.index');
     Route::post('/user-management/process/add', [UserController::class, 'store'])->name('user.store');
@@ -21,7 +22,7 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin,super_admin'])->group
     Route::delete('/user-management/delete/{id}', [UserController::class, 'destroy'])->name('user.delete');
 
     // Book Routes
-    Route::get('/book', [BookController::class, 'index'])->name('book.index');
+    Route::get('/books', [BookController::class, 'index'])->name('book.index');
 });
 
 
