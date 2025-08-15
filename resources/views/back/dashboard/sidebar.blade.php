@@ -6,7 +6,7 @@
 
         <a href="{{ route('dashboard.index') }}" @click="setActive('Dashboard')"
             :class="active === 'Dashboard' ? 'bg-white font-semibold text-gray-900' : 'hover:bg-gray-100'"
-            class="block p-2 rounded transition">
+            class="block p-2 rounded transition active">
             <i class="fa-solid fa-house me-2"></i>
             Dashboard
         </a>
@@ -72,16 +72,15 @@
             Settings
         </a>
 
-        <form method="POST" action="{{ route('logout') }}" @click="setActive('Logout')"
+        <form method="POST" action="{{ route('logout') }}" @click.prevent="clearSidebar(); $el.submit()"
             :class="active === 'Logout' ? 'bg-white font-semibold text-gray-900' : 'hover:bg-gray-100'"
             class="block p-2 rounded transition">
             @csrf
-            <x-dropdown-link :href="route('logout')"
-                onclick="event.preventDefault();
-                this.closest('form').submit();">
+            <x-dropdown-link :href="route('logout')">
                 {{ __('Logout') }}
             </x-dropdown-link>
         </form>
+
 
     </nav>
 </aside>
@@ -104,7 +103,14 @@
             toggleDropdown(name) {
                 this.openDropdown = this.openDropdown === name ? null : name;
                 localStorage.setItem('sidebar-dropdown', this.openDropdown);
+            },
+
+            clearSidebar() {
+                localStorage.removeItem('sidebar-active');
+                localStorage.removeItem('sidebar-dropdown');
+                // atau pakai localStorage.clear();
             }
         }
     }
+
 </script>

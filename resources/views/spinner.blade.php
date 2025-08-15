@@ -45,18 +45,18 @@
     <div class="spinner"></div>
 </div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const loadingSpinner = document.getElementById('loading-spinner');
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const loadingSpinner = document.getElementById('loading-spinner');
 
-        // Show the spinner when the page starts loading
-        window.addEventListener('load', function() {
-            loadingSpinner.style.display = 'none'; // Hide the spinner
-        });
+            // Show the spinner when the page starts loading
+            window.addEventListener('load', function() {
+                loadingSpinner.style.display = 'none';
+            });
 
-        // Optional: Show the spinner when navigating away from the page
-        window.addEventListener('beforeunload', function() {
-            loadingSpinner.style.display = 'flex'; // Show the spinner again
+            // Optional: Show the spinner when navigating away from the page
+            window.addEventListener('beforeunload', function() {
+                loadingSpinner.style.display = 'flex'; 
+            });
         });
-    });
-</script>
+    </script>
