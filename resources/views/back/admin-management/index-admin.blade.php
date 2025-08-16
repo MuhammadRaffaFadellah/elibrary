@@ -20,8 +20,9 @@
             animation: slideUp 0.4s ease-out;
         }
     </style>
-    <div class="wrapper flex mt-3 mb-2.5 gap-2">
-        <form action="{{ route('admin.index') }}" method="GET" class="flex flex-grow">
+    <div class="wrapper flex flex-wrap md:flex-nowrap mt-3 mb-2.5 gap-2">
+        <form action="{{ route('admin.index') }}" method="GET"
+            class="flex w-full md:flex-grow lg:w-auto md:w-auto sm:w-full">
             <input type="hidden" name="order" value="{{ request('order', 'desc') }}" />
             <input type="search" name="search" placeholder="Search . . ."
                 class="flex-grow rounded-l-md border border-gray-300 px-4 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
@@ -32,16 +33,10 @@
             </button>
         </form>
 
-        <!-- Button export -->
-        <button type="button"
-            class="ms-auto px-4 py-2 rounded-md bg-gray-400 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 text-white shadow-md transition duration-200">
-            <i class="fa-solid fa-print"></i> Export Excel
-        </button>
-
         <!-- Button ASC/DESC -->
-        <div x-data="{ open: false }" class="relative">
+        <div x-data="{ open: false }" class="relative w-full md:w-auto">
             <button @click="open = !open"
-                class="px-5 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 flex items-center gap-2">
+                class="w-full md:w-auto px-5 py-2.5 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 flex items-center justify-center gap-2 text-sm">
                 Sort
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
@@ -60,9 +55,15 @@
             </div>
         </div>
 
+        <!-- Button export -->
+        <button type="button"
+            class="w-full md:w-auto px-4 py-2 rounded-md bg-gray-400 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 text-white shadow-md transition duration-200 text-sm">
+            <i class="fa-solid fa-print"></i> Export as Excel
+        </button>
+
         <!-- Button Tambah -->
         <button id="openAddModal"
-            class="px-4 py-2 rounded-md bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600  text-white font-medium shadow-md transition duration-250">
+            class="w-full md:w-auto px-4 py-2 rounded-md bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600 text-white font-medium shadow-md transition duration-250 text-sm">
             <i class="fa-solid fa-plus"></i>
         </button>
     </div>
@@ -114,8 +115,12 @@
                             <!-- Tombol Edit -->
                             <button type="button" data-edit-admin="{{ $admin->id }}"
                                 data-admin='@json($admin)'
-                                class="inline-flex items-center px-3 py-2 bg-blue-500 text-white text-sm font-medium rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transition duration-200">
+                                class="group relative inline-flex items-center justify-center w-9 h-9 rounded-md bg-yellow-500 text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition duration-200">
                                 <i class="fa-solid fa-pen-to-square"></i>
+                                <span
+                                    class="absolute bottom-full mb-1 hidden group-hover:block text-xs text-white bg-gray-800 px-2 py-1 rounded-md shadow-md">
+                                    Edit
+                                </span>
                             </button>
 
                             <!-- Tombol Delete -->
@@ -125,15 +130,19 @@
                                 @method('DELETE')
                                 <button type="button"
                                     onclick="confirmDelete('{{ $admin->name }}' , {{ $admin->id }})"
-                                    class="inline-flex items-center px-3 py-2 bg-red-500 text-white text-sm font-medium rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 transition duration-200">
+                                    class="group relative inline-flex items-center justify-center w-9 h-9 rounded-md bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 transition duration-200">
                                     <i class="fa-solid fa-trash"></i>
+                                    <span
+                                        class="absolute bottom-full mb-1 hidden group-hover:block text-xs text-white bg-gray-800 px-2 py-1 rounded-md shadow-md">
+                                        Hapus
+                                    </span>
                                 </button>
                             </form>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="text-center text-xs text-gray-400 py-2">Tidak ada user terdaftar.</td>
+                        <td colspan="6" class="text-center text-xs text-gray-400 py-2">No admin data registered.</td>
                     </tr>
                 @endforelse
             </tbody>
@@ -175,10 +184,11 @@
                     onclick="document.getElementById('toast-success').remove()">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414
-                                        1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
-                                        1.414L10 11.414l-4.293 4.293a1 1 0
-                                        01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
-                                        010-1.414z" clip-rule="evenodd" />
+                                                                                            1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
+                                                                                            1.414L10 11.414l-4.293 4.293a1 1 0
+                                                                                            01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
+                                                                                            010-1.414z"
+                            clip-rule="evenodd" />
                     </svg>
                 </button>
             </div>
@@ -223,10 +233,11 @@
                     onclick="document.getElementById('toast-deleted').remove()">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414
-                                                1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
-                                                1.414L10 11.414l-4.293 4.293a1 1 0
-                                                01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
-                                                010-1.414z" clip-rule="evenodd" />
+                                                                                                    1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
+                                                                                                    1.414L10 11.414l-4.293 4.293a1 1 0
+                                                                                                    01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
+                                                                                                    010-1.414z"
+                            clip-rule="evenodd" />
                     </svg>
                 </button>
             </div>
@@ -268,10 +279,10 @@
                     onclick="document.getElementById('toast-error').remove()">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414
-                                    1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
-                                    1.414L10 11.414l-4.293 4.293a1 1 0
-                                    01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
-                                    010-1.414z" clip-rule="evenodd" />
+                                                                                        1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
+                                                                                        1.414L10 11.414l-4.293 4.293a1 1 0
+                                                                                        01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
+                                                                                        010-1.414z" clip-rule="evenodd" />
                     </svg>
                 </button>
             </div>

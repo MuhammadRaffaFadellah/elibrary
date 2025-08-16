@@ -18,8 +18,8 @@
             Books
         </a>
 
-        <a href="" @click="setActive('Categories')"
-            :class="active === 'categories' ? 'bg-white font-semibold text-gray-900' : 'hover:bg-gray-100'"
+        <a href="{{ route('category.index') }}" @click="setActive('Categories')"
+            :class="active === 'Categories' ? 'bg-white font-semibold text-gray-900' : 'hover:bg-gray-100'"
             class="block p-2 rounded transition">
             <i class="fa-solid fa-layer-group me-2"></i>
             Category

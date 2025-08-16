@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\ProfileController;
@@ -21,8 +22,15 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin,super_admin'])->group
     Route::put('/user-management/process/edit/{id}', [UserController::class, 'update'])->name('user.update');
     Route::delete('/user-management/delete/{id}', [UserController::class, 'destroy'])->name('user.delete');
 
+    // Category Routes
+    Route::get('/category', [CategoryController::class,'index'])->name('category.index');
+    Route::post('/category/process/add', [CategoryController::class, 'store'])->name('category.store');
+    Route::put('/category/process/edit/{id}', [CategoryController::class, 'update'])->name('category.update');
+    Route::delete('/category/delete/{id}', [CategoryController::class,'destroy'])->name('category.delete');
+
     // Book Routes
     Route::get('/books', [BookController::class, 'index'])->name('book.index');
+    Route::delete('/books/delete/{id}', [BookController::class,'destroy'])->name('book.delete');
 });
 
 

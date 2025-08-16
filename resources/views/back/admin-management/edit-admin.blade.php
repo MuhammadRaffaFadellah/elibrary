@@ -4,7 +4,7 @@
 
     <div class="edit-modal-content bg-white p-6 rounded-md shadow-md max-w-lg w-full fixed">
         <button id="closeEditFormButton"
-            class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-xl font-bold">&times;
+            class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-xl font-bold">✖
         </button>
         <h2 class="text-lg font-semibold mb-4 uppercase">Edit Data</h2>
         @if (isset($user))

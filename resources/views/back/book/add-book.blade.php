@@ -1,16 +1,16 @@
-<div id="addUserModal" class="fixed flex inset-0 items-center justify-center bg-black bg-opacity-50 z-50 hidden">
+<div id="addBookModal" class="fixed flex inset-0 items-center justify-center bg-black bg-opacity-50 z-50 hidden">
 
     <div class="modal-content bg-white p-6 rounded-md shadow-md max-w-lg w-full fixed">
         <button id="closeFormButton"
             class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-xl font-bold">✖
         </button>
         <h2 class="text-lg font-semibold mb-4 uppercase">Add Data</h2>
-        <form action="{{ route('admin.store') }}" method="POST">
+        <form action="{{ route('book.store') }}" method="POST">
             @csrf
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
 
                 <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-1 uppercase">Name <span
+                    <label class="block text-sm font-medium text-gray-700 mb-1 uppercase">Name<span
                             class="text-red-700">*</span></label>
                     <input type="text" name="name" required placeholder="Name . . ."
                         oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')"

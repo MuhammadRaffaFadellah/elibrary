@@ -10,10 +10,28 @@ class BookController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $books = Book::all();
-        return view("back.book.index-book", compact("books"));
+        $order = $request->get('order', 'asc');
+        $search = $request->get('search');
+
+        // query
+        $query = Book::query()->with('categories');
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                ->orWhere('author', 'like', "%{$search}%")
+                ->orWhere('publisher', 'like', "%{$search}%")
+                ->orWhere('year_published', 'like', "%{$search}%");
+            });
+        }
+
+        $books = $query->orderBy('title', $order)->paginate(7)->appends([
+            $order,
+            $search,
+        ]);
+        return view("back.book.index-book", compact("books", "order", "search"));
     }
 
     /**

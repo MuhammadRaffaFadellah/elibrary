@@ -4,10 +4,10 @@
 
     <div class="edit-modal-content bg-white p-6 rounded-md shadow-md max-w-lg w-full fixed">
         <button id="closeEditFormButton"
-            class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-xl font-bold">&times;
+            class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-xl font-bold">✖
         </button>
         <h2 class="text-lg font-semibold mb-4 uppercase">Edit Data</h2>
-        @if(isset($user))
+        @if (isset($user))
             <form action="  " method="POST" id="userEditForm">
                 @csrf
                 @method('PUT')
@@ -67,41 +67,41 @@
     </div>
 </div>
 
-    <script>
-        const passwordUserInput = document.getElementById('password-user-edit');
-        const passwordUserError = document.getElementById('password-user-error');
+<script>
+    const passwordUserInput = document.getElementById('password-user-edit');
+    const passwordUserError = document.getElementById('password-user-error');
 
-        passwordUserInput.addEventListener('input', function() {
-            if (passwordUserInput.value.length < 8) {
-                passwordUserError.classList.remove('hidden');
+    passwordUserInput.addEventListener('input', function() {
+        if (passwordUserInput.value.length < 8) {
+            passwordUserError.classList.remove('hidden');
+        } else {
+            passwordUserError.classList.add('hidden');
+        }
+    })
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const passwordInput = document.getElementById('password-user-edit');
+        const togglePassword = document.getElementById('togglePassword');
+
+        togglePassword.addEventListener('click', () => {
+            const isPassword = passwordInput.type === 'password';
+            passwordInput.type = isPassword ? 'text' : 'password';
+
+            // Ganti icon dan warna
+            togglePassword.classList.toggle('fa-eye');
+            togglePassword.classList.toggle('fa-eye-slash');
+
+            if (!isPassword) {
+                // Mode sembunyikan password
+                togglePassword.classList.remove('text-green-500');
+                togglePassword.classList.add('text-gray-500');
             } else {
-                passwordUserError.classList.add('hidden');
+                // Mode lihat password
+                togglePassword.classList.remove('text-gray-500');
+                togglePassword.classList.add('text-green-500');
             }
-        })
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const passwordInput = document.getElementById('password-user-edit');
-            const togglePassword = document.getElementById('togglePassword');
-
-            togglePassword.addEventListener('click', () => {
-                const isPassword = passwordInput.type === 'password';
-                passwordInput.type = isPassword ? 'text' : 'password';
-
-                // Ganti icon dan warna
-                togglePassword.classList.toggle('fa-eye');
-                togglePassword.classList.toggle('fa-eye-slash');
-
-                if (!isPassword) {
-                    // Mode sembunyikan password
-                    togglePassword.classList.remove('text-green-500');
-                    togglePassword.classList.add('text-gray-500');
-                } else {
-                    // Mode lihat password
-                    togglePassword.classList.remove('text-gray-500');
-                    togglePassword.classList.add('text-green-500');
-                }
-            });
-        })
-    </script>
+        });
+    })
+</script>
