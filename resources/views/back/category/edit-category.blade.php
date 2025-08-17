@@ -10,7 +10,7 @@
                 @csrf
                 @method('PUT')
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    
+
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700 mb-1 uppercase">Name <span
                                 class="text-red-700">*</span></label>
@@ -49,10 +49,27 @@
                     </button>
                     <button type="submit"
                         class="px-4 py-2 rounded-md bg-green-600 text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600 transition duration-200">
-                        Add
+                        Update
                     </button>
                 </div>
             </form>
         @endif
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const nameInput = document.querySelector('input[name="name"]');
+        const slugInput = document.querySelector('input[name="slug"]');
+
+        if (nameInput && slugInput) {
+            nameInput.addEventListener('input', function() {
+                slugInput.value = this.value
+                    .toLowerCase()
+                    .trim()
+                    .replace(/[^a-z0-9]+/g, '-') // ganti spasi & karakter aneh dengan -
+                    .replace(/^-+|-+$/g, ''); // hapus - di awal/akhir
+            });
+        }
+    });
+</script>

@@ -94,7 +94,7 @@ class CategoryController extends Controller
     {
         try {
             $request->validate([
-                'name'        => 'required|string|max:255|unique:categories,name,' . $id,
+                'name'        => 'required|string|max:255',
                 'slug'        => 'required|string|max:255',
                 'description' => 'nullable|string',
             ]);
@@ -121,6 +121,8 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $category = Categories::find($id);
+        $category->delete();
+        return redirect()->back()->with('deleted', 'Category deleted successfully.');
     }
 }

@@ -3,6 +3,23 @@
 @section('page-title', 'Books')
 @section('page-description', 'Books table')
 @section('body')
+    <style>
+        @keyframes slideUp {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .slide-up {
+            animation: slideUp 0.4s ease-out;
+        }
+    </style>
     <div class="wrapper flex mt-3 mb-2.5 gap-2">
         <form action="{{ route('book.index') }}" method="GET" class="flex flex-grow">
             <input type="hidden" name="order" value="{{ request('order', 'desc') }}" />
@@ -154,4 +171,97 @@
             @include('back.book.edit-book')
         </div>
     </div>
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const openButton = document.getElementById('openAddModal');
+            const modal = document.getElementById('addBookModal');
+            const modalContent = modal.querySelector('.book-modal-content');
+            const closeButton = document.getElementById('closeFormButton');
+            const cancelButton = document.getElementById('cancelButton');
+
+            function showModal() {
+                modal.classList.remove('hidden');
+                modalContent.classList.remove('slide-up'); // Reset dulu
+                void modalContent.offsetWidth; // Force reflow to re-trigger animation
+                modalContent.classList.add('slide-up');
+            }
+
+            function hideModal() {
+                modal.classList.add('hidden');
+            }
+
+            openButton.addEventListener('click', showModal);
+            closeButton.addEventListener('click', hideModal);
+            cancelButton.addEventListener('click', hideModal);
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    hideModal();
+                }
+            });
+        });
+
+        // SweetAlert untuk session deleted
+        function confirmDelete(userName, userId) {
+            Swal.fire({
+                icon: "question",
+                title: `Delete ${userName}?`,
+                text: "Are you sure you want to delete this book?",
+                showConfirmButton: true,
+                showCancelButton: true,
+                confirmButtonText: `<i class="fa-solid fa-check"></i> Yes`,
+                confirmButtonColor: "#7ADAA5",
+                cancelButtonText: `<i class="fa-solid fa-xmark"></i> No`,
+                cancelButtonColor: "#D92C54",
+                customClass: {
+                    confirmButton: 'bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600',
+                    cancelButton: 'bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-600'
+                },
+                showClass: {
+                    popup: `
+                        animate__animated
+                        animate__fadeInUp
+                        animate__faster
+                    `
+                },
+                hideClass: {
+                    popup: `
+                        animate__animated
+                        animate__fadeOutDown
+                        animate__faster
+                    `
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Deleted!",
+                        text: "Book has been deleted successfully.",
+                        timer: 5000,
+                        showConfirmButton: true,
+                        confirmButtoText: 'OK',
+                        customClass: {
+                            confirmButton: 'bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600',
+                        }
+                    }).then(() => {
+                        document.getElementById(`deleteForm-${userId}`).submit();
+                    })
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Cancelled!",
+                        text: "Admin deletion has been cancelled.",
+                        showConfirmButton: true,
+                        confirmButtonText: 'OK',
+                        customClass: {
+                            confirmButton: 'bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600',
+                        }
+                    });
+                }
+            })
+        }
+    </script>
 @endsection

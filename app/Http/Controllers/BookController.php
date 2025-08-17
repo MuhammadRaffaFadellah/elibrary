@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Books as Book;
+use App\Models\Categories;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Str;
 
 class BookController extends Controller
 {
@@ -17,13 +20,14 @@ class BookController extends Controller
 
         // query
         $query = Book::query()->with('categories');
+        $categories = Categories::all();
 
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
-                ->orWhere('author', 'like', "%{$search}%")
-                ->orWhere('publisher', 'like', "%{$search}%")
-                ->orWhere('year_published', 'like', "%{$search}%");
+                    ->orWhere('author', 'like', "%{$search}%")
+                    ->orWhere('publisher', 'like', "%{$search}%")
+                    ->orWhere('year_published', 'like', "%{$search}%");
             });
         }
 
@@ -31,7 +35,7 @@ class BookController extends Controller
             $order,
             $search,
         ]);
-        return view("back.book.index-book", compact("books", "order", "search"));
+        return view("back.book.index-book", compact("books", "order", "search", "categories"));
     }
 
     /**
@@ -47,7 +51,38 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $validated = $request->validate([
+                'category_id'   => 'required|exists:categories,id',
+                'title'         => 'required|string|max:255',
+                'author'        => 'required|string|max:255',
+                'publisher'     => 'requured|string|max:255',
+                'year_published' => 'nullable|digits:4|integer|min:1900|max:' . date('Y'),
+                'isbn'          => 'nullable|string|max:255',
+                'description'   => 'nullable|string',
+                'cover_image'   => 'nullable|image|mimes:jpg, jpeg, png|max:2049',
+                'stock'         => 'required|integer|min:0',
+                'file_path'     => 'nullable|mimes:pdf, epub, doc, docx|max:5120',
+            ]);
+
+            $validated['slug'] = Str::slug($validated['title']);
+
+            if ($request->hasFile('cover_image')) {
+                $validated['cover_image'] = $request->file('cover_image')->store('covers', 'public'); 
+            }
+
+            if ($request->hasFile('file_path')) {
+                $validated['file_path'] = $request->file('file_path')->store('books', 'public');
+            }
+
+            $validated['status'] = 'available';
+
+            Book::create($validated);
+            
+            return redirect()->back()->with('succes', 'Book successfully added');
+        } catch (QueryException $e) {
+            return redirect()->back()->with('error', 'Failed to add book: ' . $e->getMessage() . '.');
+        }
     }
 
     /**

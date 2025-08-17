@@ -30,6 +30,7 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin,super_admin'])->group
 
     // Book Routes
     Route::get('/books', [BookController::class, 'index'])->name('book.index');
+    Route::post('/books/process/add', [BookController::class, 'store'])->name('book.store');
     Route::delete('/books/delete/{id}', [BookController::class,'destroy'])->name('book.delete');
 });
 

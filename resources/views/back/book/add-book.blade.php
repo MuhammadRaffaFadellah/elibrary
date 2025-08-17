@@ -1,63 +1,138 @@
+<style>
+    /* Hilangkan panah di Chrome, Safari, Edge, Opera */
+    .no-spinner::-webkit-outer-spin-button,
+    .no-spinner::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Hilangkan panah di Firefox */
+    .no-spinner[type=number] {
+        -moz-appearance: textfield;
+    }
+</style>
+
 <div id="addBookModal" class="fixed flex inset-0 items-center justify-center bg-black bg-opacity-50 z-50 hidden">
 
-    <div class="modal-content bg-white p-6 rounded-md shadow-md max-w-lg w-full fixed">
-        <button id="closeFormButton"
-            class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-xl font-bold">✖
+    <div
+        class="book-modal-content bg-white p-6 rounded-md shadow-md max-w-4xl overflow-y-auto max-h-screen w-full fixed">
+        <button id="closeFormButton" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-xl font-bold">✖
         </button>
         <h2 class="text-lg font-semibold mb-4 uppercase">Add Data</h2>
-        <form action="{{ route('book.store') }}" method="POST">
+        <form action="{{ route('book.store') }}" method="POST" enctype="multipart/form-data" class="">
             @csrf
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-1 uppercase">Name<span
-                            class="text-red-700">*</span></label>
-                    <input type="text" name="name" required placeholder="Name . . ."
-                        oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-green-200
-                        placeholder:text-gray-400 placeholder:opacity-75">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Cover -->
+                <div class="lg:col-span-1">
+                    <div class="mb-4">
+                        <label for="cover_image" class="block text-sm font-medium text-gray-700 uppercase">Cover
+                            <span class="text-red-700">*</span></label>
+                        <input type="file" name="cover_image" id="cover_image" accept="image/*"
+                            class="mt-1 block w-full text-sm text-gray-700 border rounded-md cursor-pointer">
+                        <!-- Preview -->
+                        <div class="mt-2">
+                            <img id="coverPreview" class="hidden w-40 h-56 object-cover rounded-md border">
+                        </div>
+                    </div>
+                    <!-- File -->
+                    <div class="mb-4">
+                        <label for="file_path" class="block text-sm font-medium text-gray-700 uppercase">
+                            File <span class="text-red-700">*</span>
+                        </label>
+                        <input type="file" name="file_path" id="file_path" accept=".pdf, .epub, .mobi, .doc, .docx"
+                            class="mt-1 block w-full text-sm text-gray-700 border rounded-md cursor-pointer">
+                    </div>
                 </div>
 
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-1 uppercase">Username <span
-                            class="text-red-700">*</span></label>
-                    <input type="text" name="username" required placeholder="Username . . ."
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-green-200
-                        placeholder:text-gray-400 placeholder:opacity-75">
-                </div>
+                <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Title -->
+                    <div>
+                        <label for="title" class="block text-sm font-medium text-gray-700 uppercase">Title <span
+                                class="text-red-700">*</span></label>
+                        <input type="text" name="title" id="title" required placeholder="Title . . ."
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 placeholder:text-gray-400 placeholder:opacity-75">
+                    </div>
 
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-1 uppercase">Email <span
-                            class="text-red-700">*</span></label>
-                    <input type="email" name="email" required placeholder="@example.com"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-green-200
-                        placeholder:text-gray-400 placeholder:opacity-75">
-                </div>
+                    <!-- Slug -->
+                    <input type="hidden" name="slug" id="slug">
 
-                <div class="mb-4 relative">
-                    <label class="block text-sm font-medium text-gray-700 mb-1 uppercase">Password
-                        <span class="text-red-700">*</span> </label>
+                    <!-- Category -->
+                    <div>
+                        <label for="category_id" class="block text-sm font-medium text-gray-700 uppercase">Category
+                            <span class="text-red-700">*</span></label>
+                        <select name="category_id" id="category_id"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                            <option value="">Select Category</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
-                    <!-- Input password -->
-                    <input type="password" name="password" id="password-admin-add" required placeholder="Password . . ."
-                        class="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md focus:ring focus:ring-green-200
-                            placeholder:text-gray-400 placeholder:opacity-75">
+                    <!-- Author -->
+                    <div>
+                        <label for="author" class="block text-sm font-medium text-gray-700 uppercase">Author <span
+                                class="text-red-700">*</span></label>
+                        <input type="text" name="author" id="author" required placeholder="Author . . ."
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 placeholder:text-gray-400 placeholder:opacity-75">
+                    </div>
 
-                    <p id="password-admin-error" class="text-red-500 text-xs mt-1 hidden">
-                        Password must be at least 8 characters
-                    </p>
+                    <!-- Publisher -->
+                    <div>
+                        <label for="publisher" class="block text-sm font-medium text-gray-700 uppercase">Publisher
+                            <span class="text-red-700">*</span></label>
+                        <input type="text" name="publisher" id="publisher" placeholder="Publisher . . ."
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 placeholder:text-gray-400 placeholder:opacity-75">
+                    </div>
 
-                    <!-- Icon di dalam input -->
-                    <i id="togglePassword"
-                        class="fa-solid fa-eye-slash mt-3 absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer transition-colors duration-200">
-                    </i>
+                    <!-- Year Published -->
+                    <div>
+                        <label for="year_published" class="block text-sm font-medium text-gray-700 uppercase">Year
+                            Published
+                            <span class="text-red-700">*</span></label>
+                        <select name="year_published" id="year_published"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                            <option value="">Select Year</option>
+                            @for ($year = date('Y'); $year >= 1900; $year--)
+                                <option value="{{ $year }}">{{ $year }}</option>
+                            @endfor
+                        </select>
+                    </div>
 
+                    <!-- Stock -->
+                    <div>
+                        <label for="stock" class="block text-sm font-medium text-gray-700 uppercase">Stock <span
+                                class="text-red-700">*</span></label>
+                        <input type="number" name="stock" id="stock" required min="0"
+                            placeholder="Stock . . ."
+                            class="no-spinner mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+
+                    <!-- Status -->
+                    <input type="hidden" name="status" value="available">
+
+                    <!-- ISBN -->
+                    <div>
+                        <label for="isbn" class="block text-sm font-medium text-gray-700 uppercase">
+                            ISBN
+                        </label>
+                        <input type="number" name="isbn" id="isbn"
+                            oninput="this.value = this.value.slice(0, 13);" placeholder="ISBN . . ."
+                            class="no-spinner mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+
+                    <!-- Description (Full Width) -->
+                    <div class="md:col-span-2">
+                        <label for="description" class="block text-sm font-medium text-gray-700 uppercase">Description
+                            <span class="text-red-700">*</span></label>
+                        <textarea name="description" id="description" rows="4" placeholder="Book description . . ." required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 placeholder:text-gray-400 placeholder:opacity-75"></textarea>
+                    </div>
                 </div>
             </div>
 
-            <input type="hidden" name="role_id" value="2">
-
-            <div class="flex justify-end gap-2 mt-4">
+            <!-- Buttons -->
+            <div class="flex justify-end gap-2 mt-6">
                 <button type="button" id="cancelButton"
                     class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-600 transition duration-200">
                     Cancel
@@ -111,4 +186,34 @@
             }
         });
     })
+</script>
+
+<script>
+    document.getElementById('cover_image').addEventListener('change', function(event) {
+        const preview = document.getElementById('coverPreview');
+        const file = event.target.files[0];
+        if (file) {
+            preview.src = URL.createObjectURL(file);
+            preview.classList.remove('hidden');
+        } else {
+            preview.classList.add('hidden');
+        }
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const nameInput = document.querySelector('input[name="title"]');
+        const slugInput = document.querySelector('input[name="slug"]');
+
+        if (nameInput && slugInput) {
+            nameInput.addEventListener('input', function() {
+                slugInput.value = this.value
+                    .toLowerCase()
+                    .trim()
+                    .replace(/[^a-z0-9]+/g, '-') // ganti spasi & karakter aneh dengan -
+                    .replace(/^-+|-+$/g, ''); // hapus - di awal/akhir
+            });
+        }
+    });
 </script>
