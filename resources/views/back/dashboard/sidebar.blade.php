@@ -1,5 +1,5 @@
 <aside x-data="sidebarState()" x-init="init()"
-    class="fixed top-16 left-0 z-40 w-64 h-full bg-gray-300 border-r border-gray-200 shadow-md transform transition-transform duration-300 ease-in-out
+    class="fixed top-16 left-0 z-40 w-64 h-full bg-gray-300 border-r border-gray-200 shadow-lg transform transition-transform duration-300 ease-in-out
         md:translate-x-0"
     :class="{ '-translate-x-full': !sidebarOpen }" x-cloak>
     <nav class="p-4 space-y-2">

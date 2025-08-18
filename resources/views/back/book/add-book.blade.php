@@ -23,14 +23,14 @@
             @csrf
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <!-- Group left -->
-                <div class="lg:col-span-1">
+                <div class="lg:col-span-1 ">
                     <div class="mb-4">
                         <label for="cover_image" class="block text-sm font-medium text-gray-700 uppercase">Cover
                             <span class="text-red-700">*</span></label>
                         <input type="file" name="cover_image" id="cover_image" accept="image/*"
                             class="mt-1 block w-full text-sm text-gray-700 border rounded-md cursor-pointer">
                         <!-- Preview -->
-                        <div class="mt-2">
+                        <div class="my-3">
                             <img id="coverPreview" class="hidden w-40 h-56 object-cover rounded-md border">
                         </div>
                     </div>
@@ -138,7 +138,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- Buttons -->
             <div class="flex justify-end gap-2 mt-6">
                 <button type="button" id="cancelButton"
