@@ -53,7 +53,8 @@ class BookController extends Controller
     {
         try {
             $validated = $request->validate([
-                'category_id'   => 'required|exists:categories,id',
+                'categories'   => 'required|array',
+                'categories.'   => 'exists:categories,id',
                 'title'         => 'required|string|max:255',
                 'author'        => 'required|string|max:255',
                 'publisher'     => 'requured|string|max:255',
@@ -66,19 +67,20 @@ class BookController extends Controller
             ]);
 
             $validated['slug'] = Str::slug($validated['title']);
+            $validated['status'] = 'available';
 
             if ($request->hasFile('cover_image')) {
-                $validated['cover_image'] = $request->file('cover_image')->store('covers', 'public'); 
+                $validated['cover_image'] = $request->file('cover_image')->store('covers', 'public');
             }
 
             if ($request->hasFile('file_path')) {
                 $validated['file_path'] = $request->file('file_path')->store('books', 'public');
             }
 
-            $validated['status'] = 'available';
+            $book = Book::create($validated);
 
-            Book::create($validated);
-            
+            $book->categories()->attach($request->categories);
+
             return redirect()->back()->with('succes', 'Book successfully added');
         } catch (QueryException $e) {
             return redirect()->back()->with('error', 'Failed to add book: ' . $e->getMessage() . '.');

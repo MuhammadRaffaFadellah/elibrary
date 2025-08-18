@@ -1,8 +1,7 @@
 <div id="addCategoryModal" class="fixed flex inset-0 items-center justify-center bg-black bg-opacity-50 z-50 hidden">
 
     <div class="modal-content bg-white p-6 rounded-md shadow-md max-w-lg w-full fixed">
-        <button id="closeFormButton"
-            class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-xl font-bold">✖
+        <button id="closeFormButton" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-xl font-bold">✖
         </button>
         <h2 class="text-lg font-semibold mb-4 uppercase">Add Data</h2>
         <form action="{{ route('category.store') }}" method="POST">
@@ -50,7 +49,7 @@
             </div>
         </form>
     </div>
-</div>  
+</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -66,5 +65,17 @@
                     .replace(/^-+|-+$/g, ''); // hapus - di awal/akhir
             });
         }
+    });
+</script>
+
+<!-- Tambahkan di layout -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#categories').select2({
+            placeholder: "Pilih kategori",
+            allowClear: true
+        });
     });
 </script>

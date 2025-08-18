@@ -193,10 +193,10 @@
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd"
                             d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414
-                                                                                                                                            1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
-                                                                                                                                            1.414L10 11.414l-4.293 4.293a1 1 0
-                                                                                                                                            01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
-                                                                                                                                            010-1.414z"
+                                                                                                                                                1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
+                                                                                                                                                1.414L10 11.414l-4.293 4.293a1 1 0
+                                                                                                                                                01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
+                                                                                                                                                010-1.414z"
                             clip-rule="evenodd" />
                     </svg>
                 </button>
@@ -243,10 +243,10 @@
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd"
                             d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414
-                                                                                                                                                    1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
-                                                                                                                                                    1.414L10 11.414l-4.293 4.293a1 1 0
-                                                                                                                                                    01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
-                                                                                                                                                    010-1.414z"
+                                                                                                                                                        1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
+                                                                                                                                                        1.414L10 11.414l-4.293 4.293a1 1 0
+                                                                                                                                                        01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
+                                                                                                                                                        010-1.414z"
                             clip-rule="evenodd" />
                     </svg>
                 </button>
@@ -290,10 +290,10 @@
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd"
                             d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414
-                                                                                                                                        1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
-                                                                                                                                        1.414L10 11.414l-4.293 4.293a1 1 0
-                                                                                                                                        01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
-                                                                                                                                        010-1.414z"
+                                                                                                                                            1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
+                                                                                                                                            1.414L10 11.414l-4.293 4.293a1 1 0
+                                                                                                                                            01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
+                                                                                                                                            010-1.414z"
                             clip-rule="evenodd" />
                     </svg>
                 </button>
@@ -430,16 +430,18 @@
 
             editButton.forEach(button => {
                 button.addEventListener('click', function() {
-                    const userId = this.getAttribute('data-edit-category');
+                    const category = JSON.parse(this.getAttribute('data-category'));
                     showEditModal();
 
-                    const category = JSON.parse(this.getAttribute('data-category'));
+                    // isi input
                     editModal.querySelector('input[name="name"]').value = category.name;
                     editModal.querySelector('input[name="slug"]').value = category.slug;
-                    editModal.querySelector('input[name="description"]').value = category
+                    editModal.querySelector('textarea[name="description"]').value = category
                         .description;
-                    editModal.querySelector('form#adminEditForm').action =
-                        `/category/process/edit/${category.id}`;
+
+                    // set action form ke route update yang benar
+                    const form = editModal.querySelector('form#categoryEditForm');
+                    form.action = `/category/process/edit/${category.id}`;
                 })
             })
 

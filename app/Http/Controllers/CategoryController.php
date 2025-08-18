@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use \Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
@@ -95,24 +96,19 @@ class CategoryController extends Controller
         try {
             $request->validate([
                 'name'        => 'required|string|max:255',
-                'slug'        => 'required|string|max:255',
+                'slug'        => 'required|string|max:255|unique:categories,slug,' . $id,
                 'description' => 'nullable|string',
             ]);
 
             $category = Categories::findOrFail($id);
-
-            $category->update([
-                'name'        => $request->name,
-                'slug'        => $request->slug,
-                'description' => $request->description,
-            ]);
+            $category->update($request->only('name', 'slug', 'description'));
 
             return redirect()->back()->with('success', 'Category successfully updated.');
         } catch (QueryException $e) {
             if ($e->getCode() === '23000') {
                 return redirect()->back()->with('error', 'Failed to update category: Name already exists.');
             }
-            return redirect()->back()->with('error', 'Failed to update category: Database error.');
+            return redirect()->back()->with('error', 'Failed to update category: ' . $e->getMessage() . '.');
         }
     }
 

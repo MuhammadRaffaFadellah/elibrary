@@ -22,7 +22,7 @@
         <form action="{{ route('book.store') }}" method="POST" enctype="multipart/form-data" class="">
             @csrf
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Cover -->
+                <!-- Group left -->
                 <div class="lg:col-span-1">
                     <div class="mb-4">
                         <label for="cover_image" class="block text-sm font-medium text-gray-700 uppercase">Cover
@@ -42,6 +42,27 @@
                         <input type="file" name="file_path" id="file_path" accept=".pdf, .epub, .mobi, .doc, .docx"
                             class="mt-1 block w-full text-sm text-gray-700 border rounded-md cursor-pointer">
                     </div>
+
+                    <!-- Categories -->
+                    <div>
+                        <label for="categories" class="block text-sm font-medium text-gray-700 uppercase">
+                            Categories <span class="text-red-700">*</span>
+                        </label>
+
+                        <!-- Bungkus daftar kategori -->
+                        <div class="mt-2 max-h-48 overflow-y-auto border rounded-md p-2">
+                            <div class="grid grid-cols-2 gap-2">
+                                @foreach ($categories as $category)
+                                    <label
+                                        class="flex items-center gap-2 p-2 border rounded-lg cursor-pointer hover:bg-blue-50">
+                                        <input type="checkbox" name="categories[]" value="{{ $category->id }}"
+                                            class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                        <span class="text-gray-700">{{ $category->name }}</span>
+                                    </label>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -55,19 +76,6 @@
 
                     <!-- Slug -->
                     <input type="hidden" name="slug" id="slug">
-
-                    <!-- Category -->
-                    <div>
-                        <label for="category_id" class="block text-sm font-medium text-gray-700 uppercase">Category
-                            <span class="text-red-700">*</span></label>
-                        <select name="category_id" id="category_id"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                            <option value="">Select Category</option>
-                            @foreach ($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
 
                     <!-- Author -->
                     <div>
@@ -216,4 +224,13 @@
             });
         }
     });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#categories').select2({
+            placeholder: "Select Categories",
+            allowClear: true,
+            dropdownParent: $('#addBookModal')
+        })
+    })
 </script>
