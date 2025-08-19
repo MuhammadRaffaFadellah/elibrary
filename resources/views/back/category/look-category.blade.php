@@ -1,7 +1,7 @@
 <!-- Modal Look Card -->
 <div id="lookCardModal" class="hidden fixed inset-0 bg-black bg-opacity-40 items-center justify-center z-50">
     <div class="look-modal-content bg-white rounded-lg shadow-lg p-6 w-96 relative">
-        <!-- Tombol Close -->
+        <!-- Button Close -->
         <button id="closeLookCard" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">✖</button>
 
         <h2 class="text-lg font-bold mb-4">Category Detail</h2>

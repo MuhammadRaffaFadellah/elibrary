@@ -10,7 +10,6 @@ class Books extends Model
 {
     protected $table = "books";
     protected $fillable = [
-        'category_id',
         'title',
         'slug',
         'author',
@@ -19,20 +18,23 @@ class Books extends Model
         'isbn',
         'description',
         'cover_image',
-        'stock',
         'file_path',
+        'stock',
         'status',
     ];
 
-    public function category() {
-        return $this->belongsToMany(Categories::class, 'category_id');
+    public function categories()
+    {
+        return $this->belongsToMany(Categories::class, 'book_category');
     }
 
-    public function borrowings(){
+    public function borrowings()
+    {
         return $this->hasMany(Borrowings::class, 'book_id');
     }
 
-    public function favorites(){
-        return $this->hasMany(Favorites::class,'book_id');
+    public function favorites()
+    {
+        return $this->hasMany(Favorites::class, 'book_id');
     }
 }

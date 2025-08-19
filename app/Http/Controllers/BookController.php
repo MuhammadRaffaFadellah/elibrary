@@ -54,10 +54,10 @@ class BookController extends Controller
         try {
             $validated = $request->validate([
                 'categories'   => 'required|array',
-                'categories.'   => 'exists:categories,id',
+                'categories.*'   => 'exists:categories,id',
                 'title'         => 'required|string|max:255',
                 'author'        => 'required|string|max:255',
-                'publisher'     => 'requured|string|max:255',
+                'publisher'     => 'required|string|max:255',
                 'year_published' => 'nullable|digits:4|integer|min:1900|max:' . date('Y'),
                 'isbn'          => 'nullable|string|max:255',
                 'description'   => 'nullable|string',

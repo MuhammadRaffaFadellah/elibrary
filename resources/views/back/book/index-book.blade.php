@@ -20,7 +20,7 @@
             animation: slideUp 0.4s ease-out;
         }
     </style>
-    <div class="wrapper flex mt-3 mb-2.5 gap-2">
+    <div class="wrapper flex flex-wrap md:flex-nowrap mt-3 mb-2.5 gap-2">
         <form action="{{ route('book.index') }}" method="GET" class="flex flex-grow">
             <input type="hidden" name="order" value="{{ request('order', 'desc') }}" />
             <input type="search" name="search" placeholder="Search . . ."
@@ -32,16 +32,10 @@
             </button>
         </form>
 
-        <!-- Button export -->
-        <button type="button"
-            class="ms-auto px-4 py-2 rounded-md bg-gray-400 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 text-white shadow-md transition duration-200">
-            <i class="fa-solid fa-print"></i> Export as Excel
-        </button>
-
         <!-- Button ASC/DESC -->
-        <div x-data="{ open: false }" class="relative">
+        <div x-data="{ open: false }" class="relative w-full md:w-auto">
             <button @click="open = !open"
-                class="px-5 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 flex items-center gap-2">
+                class="w-full md:w-auto px-5 py-2.5 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 flex items-center justify-center gap-2 text-sm">
                 Sort
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
@@ -60,9 +54,15 @@
             </div>
         </div>
 
+        <!-- Button export -->
+        <button type="button"
+            class="w-full md:w-auto px-4 py-2 rounded-md bg-gray-400 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 text-white shadow-md transition duration-200 text-sm">
+            <i class="fa-solid fa-print"></i> Export as Excel
+        </button>
+
         <!-- Button Tambah -->
         <button id="openAddModal"
-            class="px-4 py-2 rounded-md bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600  text-white font-medium shadow-md transition duration-250">
+            class="w-full md:w-auto px-4 py-2 rounded-md bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600 text-white font-medium shadow-md transition duration-250 text-sm">
             <i class="fa-solid fa-plus"></i>
         </button>
     </div>
@@ -102,6 +102,10 @@
                     </th>
                     <th scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        ISBN
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Stock
                     </th>
                     <th scope="col"
@@ -120,25 +124,38 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-center">
                             {{ $loop->iteration + ($books->currentPage() - 1) * $books->perPage() }}.
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $admin->title }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $admin->title }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $admin->categories->name }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $admin->author }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $admin->publisher }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $admin->year_published }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $admin->stock }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $admin->status }}</td>
-                        <td
-                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 flex space-x-2 align-items-center justify-center">
-                            <!-- Tombol Edit -->
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            <img src="{{ asset('storage/' . $book->cover_image) }}" alt="Book Cover" class="h-16 rounded">
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $book->title }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            @foreach ($book->categories as $category)
+                                <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">
+                                    {{ $category->name }}
+                                </span>
+                            @endforeach
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $book->author }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $book->publisher }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $book->year_published }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $book->isbn }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $book->stock }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 capitalize">{{ $book->status }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 flex space-x-1 mt-3.5">
+                            <!-- Button Look -->
+                            <button data-look-book="@json($book)"
+                                class="group relative inline-flex items-center justify-center w-9 h-9 rounded-md bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                            <!-- Button Edit -->
                             <button type="button" data-edit-book="{{ $book->id }}"
                                 data-book='@json($book)'
-                                class="inline-flex items-center px-3 py-2 bg-blue-500 text-white text-sm font-medium rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transition duration-200">
+                                class="inline-flex items-center px-3 py-2 bg-yellow-500 text-white text-sm font-medium rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 transition duration-200">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </button>
 
-                            <!-- Tombol Delete -->
-                            <form id="deleteForm-{{ $book->id }}" action="{{ route('book.delete', $admin->id) }}"
+                            <!-- Button Delete -->
+                            <form id="deleteForm-{{ $book->id }}" action="{{ route('book.delete', $book->id) }}"
                                 method="POST">
                                 @csrf
                                 @method('DELETE')

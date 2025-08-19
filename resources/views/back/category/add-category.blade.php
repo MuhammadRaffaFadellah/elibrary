@@ -34,17 +34,17 @@
                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-green-200
                         placeholder:text-gray-400 placeholder:opacity-75"
                         rows="4"></textarea>
-                    <div class="flex justify-end gap-2 mt-4">
-                        <button type="button" id="cancelButton"
-                            class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-600 transition duration-200">
-                            Cancel
-                        </button>
-                        <button type="submit"
-                            class="px-4 py-2 rounded-md bg-green-600 text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600 transition duration-200">
-                            Add
-                        </button>
-                    </div>
                 </div>
+            </div>
+            <div class="flex justify-end gap-2 mt-4">
+                <button type="button" id="cancelButton"
+                    class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-600 transition duration-200">
+                    Cancel
+                </button>
+                <button type="submit"
+                    class="px-4 py-2 rounded-md bg-green-600 text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600 transition duration-200">
+                    Add
+                </button>
             </div>
         </form>
     </div>

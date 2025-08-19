@@ -51,18 +51,25 @@
 
                         <!-- Bungkus daftar kategori -->
                         <div class="mt-2 max-h-48 overflow-y-auto border rounded-md p-2">
-                            <div class="grid grid-cols-2 gap-2">
-                                @foreach ($categories as $category)
-                                    <label
-                                        class="flex items-center gap-2 p-2 border rounded-lg cursor-pointer hover:bg-blue-50">
-                                        <input type="checkbox" name="categories[]" value="{{ $category->id }}"
-                                            class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-                                        <span class="text-gray-700">{{ $category->name }}</span>
-                                    </label>
-                                @endforeach
-                            </div>
+                            @if ($categories->isEmpty())
+                                <div class="text-center text-gray-500">
+                                    Data kategori kosong.
+                                </div>
+                            @else
+                                <div class="grid grid-cols-2 gap-2">
+                                    @foreach ($categories as $category)
+                                        <label
+                                            class="flex items-center gap-2 p-2 border rounded-lg cursor-pointer hover:bg-blue-50">
+                                            <input type="checkbox" name="categories[]" value="{{ $category->id }}"
+                                                class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-gray-700">{{ $category->name }}</span>
+                                        </label>
+                                    @endforeach
+                                </div>
+                            @endif
                         </div>
                     </div>
+
                 </div>
 
                 <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
