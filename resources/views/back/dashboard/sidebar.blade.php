@@ -1,25 +1,39 @@
 <aside x-data="sidebarState()" x-init="init()"
-    class="fixed top-16 left-0 z-40 w-64 h-full bg-gray-300 border-r border-gray-200 shadow-lg transform transition-transform duration-300 ease-in-out
-        md:translate-x-0"
+    class="fixed top-16 left-0 z-40 w-64 h-full 
+           bg-gray-300 border-r border-gray-200 shadow-lg 
+           transform transition-transform duration-300 ease-in-out
+           dark:bg-gray-900 dark:border-gray-700 dark:shadow-xl
+           md:translate-x-0"
     :class="{ '-translate-x-full': !sidebarOpen }" x-cloak>
     <nav class="p-4 space-y-2">
-
+        <!-- Dashboard -->
         <a href="{{ route('dashboard.index') }}" @click="setActive('Dashboard')"
-            :class="active === 'Dashboard' ? 'bg-white font-semibold text-gray-900' : 'hover:bg-gray-100'"
+            :class="active === 'Dashboard'
+                ?
+                'bg-white font-semibold text-gray-900 dark:bg-gray-700 dark:text-white' :
+                'hover:bg-gray-100 dark:hover:bg-gray-800 dark:text-gray-300'"
             class="block p-2 rounded transition active">
             <i class="fa-solid fa-house me-2"></i>
             Dashboard
         </a>
 
+        <!-- Books -->
         <a href="{{ route('book.index') }}" @click="setActive('Books')"
-            :class="active === 'Books' ? 'bg-white font-semibold text-gray-900' : 'hover:bg-gray-100'"
+            :class="active === 'Books'
+                ?
+                'bg-white font-semibold text-gray-900 dark:bg-gray-700 dark:text-white' :
+                'hover:bg-gray-100 dark:hover:bg-gray-800 dark:text-gray-300'"
             class="block p-2 rounded transition">
             <i class="fa-solid fa-book-open me-2"></i>
             Books
         </a>
 
+        <!-- Categories -->
         <a href="{{ route('category.index') }}" @click="setActive('Categories')"
-            :class="active === 'Categories' ? 'bg-white font-semibold text-gray-900' : 'hover:bg-gray-100'"
+            :class="active === 'Categories'
+                ?
+                'bg-white font-semibold text-gray-900 dark:bg-gray-700 dark:text-white' :
+                'hover:bg-gray-100 dark:hover:bg-gray-800 dark:text-gray-300'"
             class="block p-2 rounded transition">
             <i class="fa-solid fa-layer-group me-2"></i>
             Category
@@ -27,12 +41,12 @@
 
         @auth
             @if (Auth::user()->role->name === 'super_admin')
-                <!-- User with Dropdown -->
+                <!-- User Management with Dropdown -->
                 <div>
                     <button @click="toggleDropdown('user-management')"
                         :class="(openDropdown === 'user-management') ?
-                        'bg-white font-semibold text-gray-900' :
-                        'hover:bg-gray-100'"
+                        'bg-white font-semibold text-gray-900 dark:bg-gray-700 dark:text-white' :
+                        'hover:bg-gray-100 dark:hover:bg-gray-800 dark:text-gray-300'"
                         class="w-full text-left p-2 rounded transition flex items-center">
                         <i class="fa-solid fa-users me-3"></i> User Management
                         <svg :class="openDropdown === 'user-management' ? 'rotate-90' : ''"
@@ -45,43 +59,49 @@
                     <!-- Dropdown Items -->
                     <div x-show="openDropdown === 'user-management'" x-transition class="ml-4 mt-1 space-y-1">
                         <a href="{{ route('admin.index') }}" @click="setActive('Admin')"
-                            :class="active === 'Admin' ? 'bg-white font-semibold text-gray-900' : 'hover:bg-gray-100'"
+                            :class="active === 'Admin'
+                                ?
+                                'bg-white font-semibold text-gray-900 dark:bg-gray-700 dark:text-white' :
+                                'hover:bg-gray-100 dark:hover:bg-gray-800 dark:text-gray-300'"
                             class="block p-2 rounded transition">
                             <i class="fa-solid fa-user-tie me-1"></i> Admin
                         </a>
                         <a href="{{ route('user.index') }}" @click="setActive('Users')"
-                            :class="active === 'Users' ? 'bg-white font-semibold text-gray-900' : 'hover:bg-gray-100'"
+                            :class="active === 'Users'
+                                ?
+                                'bg-white font-semibold text-gray-900 dark:bg-gray-700 dark:text-white' :
+                                'hover:bg-gray-100 dark:hover:bg-gray-800 dark:text-gray-300'"
                             class="block p-2 rounded transition">
                             <i class="fa-solid fa-user me-1"></i> User
                         </a>
                     </div>
                 </div>
             @endif
+
             @if (Auth::user()->role->name === 'admin')
                 <a href="{{ route('user.index') }}" @click="setActive('Users')"
-                    :class="active === 'Users' ? 'bg-white font-semibold text-gray-900' : 'hover:bg-gray-100'"
+                    :class="active === 'Users'
+                        ?
+                        'bg-white font-semibold text-gray-900 dark:bg-gray-700 dark:text-white' :
+                        'hover:bg-gray-100 dark:hover:bg-gray-800 dark:text-gray-300'"
                     class="block p-2 rounded transition">
                     <i class="fa-solid fa-user me-1"></i> User
                 </a>
             @endif
         @endauth
 
-        <a href="#" @click="setActive('Settings')"
-            :class="active === 'Settings' ? 'bg-white font-semibold text-gray-900' : 'hover:bg-gray-100'"
-            class="block p-2 rounded transition">
-            Settings
-        </a>
-
+        <!-- Logout -->
         <form method="POST" action="{{ route('logout') }}" @click.prevent="clearSidebar(); $el.submit()"
-            :class="active === 'Logout' ? 'bg-white font-semibold text-gray-900' : 'hover:bg-gray-100'"
+            :class="active === 'Logout'
+                ?
+                'bg-white font-semibold text-gray-900 dark:bg-gray-700 dark:text-white' :
+                'hover:bg-gray-100 dark:hover:bg-gray-800 dark:text-gray-300'"
             class="block p-2 rounded transition">
             @csrf
             <x-dropdown-link :href="route('logout')">
                 {{ __('Logout') }}
             </x-dropdown-link>
         </form>
-
-
     </nav>
 </aside>
 
@@ -108,9 +128,7 @@
             clearSidebar() {
                 localStorage.removeItem('sidebar-active');
                 localStorage.removeItem('sidebar-dropdown');
-                // atau pakai localStorage.clear();
             }
         }
     }
-
 </script>

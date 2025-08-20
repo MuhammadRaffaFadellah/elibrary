@@ -21,14 +21,20 @@
         }
     </style>
     <div class="wrapper flex flex-wrap md:flex-nowrap mt-3 mb-2.5 gap-2">
+        <!-- Form Pencarian -->
         <form action="{{ route('admin.index') }}" method="GET"
             class="flex w-full md:flex-grow lg:w-auto md:w-auto sm:w-full">
             <input type="hidden" name="order" value="{{ request('order', 'desc') }}" />
             <input type="search" name="search" placeholder="Search . . ."
-                class="flex-grow rounded-l-md border border-gray-300 px-4 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                class="flex-grow rounded-l-md border border-gray-300 px-4 py-2 
+                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500
+                   bg-white text-gray-900
+                   dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 dark:placeholder-gray-400"
                 value="{{ request('search', '') }}">
             <button type="submit"
-                class="px-4 py-2 rounded-r-md bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 text-white shadow-md transition duration-200 border border-blue-500">
+                class="px-4 py-2 rounded-r-md bg-blue-500 hover:bg-blue-600 
+                   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 
+                   text-white shadow-md transition duration-200 border border-blue-500">
                 Search
             </button>
         </form>
@@ -36,7 +42,8 @@
         <!-- Button ASC/DESC -->
         <div x-data="{ open: false }" class="relative w-full md:w-auto">
             <button @click="open = !open"
-                class="w-full md:w-auto px-5 py-2.5 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 flex items-center justify-center gap-2 text-sm">
+                class="w-full md:w-auto px-5 py-2.5 bg-blue-500 text-white rounded-md shadow 
+                   hover:bg-blue-600 flex items-center justify-center gap-2 text-sm">
                 Sort
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
@@ -44,74 +51,89 @@
                 </svg>
             </button>
 
+            <!-- Dropdown Sort -->
             <div x-show="open" @click.away="open = false"
-                class="absolute mt-2 w-40 bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200 z-50">
-                <a href="{{ route('admin.index', ['order' => 'asc']) }}" class="block px-4 py-2 hover:bg-gray-100">
+                class="absolute mt-2 w-40 bg-white rounded-lg shadow-lg overflow-hidden 
+                   border border-gray-200 z-50 dark:bg-gray-800 dark:border-gray-700">
+                <a href="{{ route('admin.index', ['order' => 'asc']) }}"
+                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-200">
                     Sort A-Z ⬆️
                 </a>
-                <a href="{{ route('admin.index', ['order' => 'desc']) }}" class="block px-4 py-2 hover:bg-gray-100">
+                <a href="{{ route('admin.index', ['order' => 'desc']) }}"
+                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-200">
                     Sort Z-A ⬇️
                 </a>
             </div>
         </div>
 
-        <!-- Button export -->
+        <!-- Button Export -->
         <button type="button"
-            class="w-full md:w-auto px-4 py-2 rounded-md bg-gray-400 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 text-white shadow-md transition duration-200 text-sm">
+            class="w-full md:w-auto px-4 py-2 rounded-md bg-gray-400 hover:bg-gray-500 
+               focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 
+               text-white shadow-md transition duration-200 text-sm">
             <i class="fa-solid fa-print"></i> Export as Excel
         </button>
 
         <!-- Button Tambah -->
         <button id="openAddModal"
-            class="w-full md:w-auto px-4 py-2 rounded-md bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600 text-white font-medium shadow-md transition duration-250 text-sm">
+            class="w-full md:w-auto px-4 py-2 rounded-md bg-green-600 hover:bg-green-700 
+               focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600 
+               text-white font-medium shadow-md transition duration-250 text-sm">
             <i class="fa-solid fa-plus"></i>
         </button>
     </div>
 
     <div class="overflow-x-auto">
         <!-- Tabel User -->
-        <table class="w-full min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
+        <table class="w-full min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+            <thead class="bg-gray-50 dark:bg-gray-800">
                 <tr>
                     <th scope="col"
-                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
                         No
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
                         Name
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
                         Username
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
                         Email
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
                         Role
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
                         Action
                     </th>
                 </tr>
             </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
+            <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-900 dark:divide-gray-700">
                 @forelse ($admins as $admin)
-                    <tr class="hover:bg-gray-100">
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-center">
+                    <tr class="hover:bg-gray-100 dark:hover:bg-gray-800">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200 text-center">
                             {{ $loop->iteration + ($admins->currentPage() - 1) * $admins->perPage() }}.
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $admin->name }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $admin->username }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $admin->email }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600">
-                            {{ $admin->role->name === 'super_admin' ? 'Super Admin' : ucfirst($admin->role->name) }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200">
+                            {{ $admin->name }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200">
+                            {{ $admin->username }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200">
+                            {{ $admin->email }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600 dark:text-green-400">
+                            {{ $admin->role->name === 'super_admin' ? 'Super Admin' : ucfirst($admin->role->name) }}
+                        </td>
                         <td
-                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 flex space-x-2 align-items-center justify-center">
+                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200 flex space-x-2 align-items-center justify-center">
                             <!-- Tombol Edit -->
                             <button type="button" data-edit-admin="{{ $admin->id }}"
                                 data-admin='@json($admin)'
@@ -142,7 +164,9 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="text-center text-xs text-gray-400 py-2">No admin data registered.</td>
+                        <td colspan="6" class="text-center text-xs text-gray-400 dark:text-gray-500 py-2">
+                            No admin data registered.
+                        </td>
                     </tr>
                 @endforelse
             </tbody>
@@ -163,32 +187,27 @@
 
         <!-- Toast Sukses -->
         @if (session('success'))
-            <div class="fixed bottom-5 right-5 z-50 flex items-center w-full max-w-xs p-4 text-green-800 bg-green-100 border border-green-400 rounded-lg shadow-md transition-opacity duration-500 opacity-0"
+            <div class="fixed bottom-5 right-5 z-50 flex items-center w-full max-w-xs p-4 
+                    text-green-800 bg-green-100 border border-green-400 rounded-lg shadow-md 
+                    transition-opacity duration-500 opacity-0 dark:bg-green-900 dark:text-green-200 dark:border-green-600"
                 id="toast-success" role="alert">
-
-                <!-- Icon toast -->
                 <div class="flex-shrink-0 w-6 h-6 mr-3 animate-bounce-in">
                     <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
                         viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
                 </div>
-
-                <!-- Pesan sukses -->
                 <div class="text-sm font-medium flex-1">
                     {{ session('success') }}
                 </div>
-
-                <!-- Button tutup -->
                 <button type="button" class="ml-auto text-green-500 hover:text-green-700 focus:outline-none"
                     onclick="document.getElementById('toast-success').remove()">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414
-                                                                                            1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
-                                                                                            1.414L10 11.414l-4.293 4.293a1 1 0
-                                                                                            01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
-                                                                                            010-1.414z"
-                            clip-rule="evenodd" />
+                                    1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
+                                    1.414L10 11.414l-4.293 4.293a1 1 0
+                                    01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
+                                    010-1.414z" clip-rule="evenodd" />
                     </svg>
                 </button>
             </div>
@@ -212,32 +231,27 @@
 
         <!-- Toast Delete -->
         @if (session('deleted'))
-            <div class="fixed bottom-5 right-5 z-50 flex items-center w-full max-w-xs p-4 text-green-800 bg-green-100 border border-green-400 rounded-lg shadow-md transition-opacity duration-500 opacity-0"
+            <div class="fixed bottom-5 right-5 z-50 flex items-center w-full max-w-xs p-4 
+                    text-green-800 bg-green-100 border border-green-400 rounded-lg shadow-md 
+                    transition-opacity duration-500 opacity-0 dark:bg-green-900 dark:text-green-200 dark:border-green-600"
                 id="toast-deleted" role="alert">
-
-                <!-- Icon toast -->
                 <div class="flex-shrink-0 w-6 h-6 mr-3 animate-bounce-in">
                     <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" stroke-width="2"
                         viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
                 </div>
-
-                <!-- Pesan deleted -->
                 <div class="text-sm text-green-500 font-medium flex-1">
                     {{ session('deleted') }}
                 </div>
-
-                <!-- Button tutup -->
                 <button type="button" class="ml-auto text-green-500 hover:text-green-700 focus:outline-none"
                     onclick="document.getElementById('toast-deleted').remove()">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414
-                                                                                                    1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
-                                                                                                    1.414L10 11.414l-4.293 4.293a1 1 0
-                                                                                                    01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
-                                                                                                    010-1.414z"
-                            clip-rule="evenodd" />
+                                        1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
+                                        1.414L10 11.414l-4.293 4.293a1 1 0
+                                        01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
+                                        010-1.414z" clip-rule="evenodd" />
                     </svg>
                 </button>
             </div>
@@ -261,28 +275,24 @@
 
         <!-- Toast Error -->
         @if (session('error'))
-            <div class="fixed bottom-5 right-5 z-50 flex items-center w-full max-w-xs p-4 text-red-800 bg-red-100 border border-red-400 rounded-lg shadow-md transition-opacity duration-500 opacity-0"
+            <div class="fixed bottom-5 right-5 z-50 flex items-center w-full max-w-xs p-4 
+                    text-red-800 bg-red-100 border border-red-400 rounded-lg shadow-md 
+                    transition-opacity duration-500 opacity-0 dark:bg-red-900 dark:text-red-200 dark:border-red-600"
                 id="toast-error" role="alert">
-
-                <!-- Icon toast -->
                 <div class="flex-shrink-0 w-6 h-6 mr-3 animate-bounce-in">
                     <i class="fa-solid fa-xmark"></i>
                 </div>
-
-                <!-- Pesan deleted -->
                 <div class="text-xs text-red-500 font-medium flex-1">
                     {{ session('error') }}
                 </div>
-
-                <!-- Button tutup -->
                 <button type="button" class="ml-auto text-red-500 hover:text-red-700 focus:outline-none"
                     onclick="document.getElementById('toast-error').remove()">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414
-                                                                                        1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
-                                                                                        1.414L10 11.414l-4.293 4.293a1 1 0
-                                                                                        01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
-                                                                                        010-1.414z" clip-rule="evenodd" />
+                                            1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
+                                            1.414L10 11.414l-4.293 4.293a1 1 0
+                                            01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
+                                            010-1.414z" clip-rule="evenodd" />
                     </svg>
                 </button>
             </div>

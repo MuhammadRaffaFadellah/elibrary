@@ -77,39 +77,39 @@
                         No
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Cover
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Title
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Category
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Author
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Publisher
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Year
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                         ISBN
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Stock
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Status
                     </th>
                     <th scope="col"
@@ -128,29 +128,50 @@
                             <img src="{{ asset('storage/' . $book->cover_image) }}" alt="Book Cover" class="h-16 rounded">
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $book->title }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            @foreach ($book->categories as $category)
-                                <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">
-                                    {{ $category->name }}
-                                </span>
-                            @endforeach
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 ">
+                            <div class="flex justify-center gap-2">
+                                @foreach ($book->categories as $category)
+                                    <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded justify-center font-semibold">
+                                        {{ $category->name }}
+                                    </span>
+                                @endforeach
+                            </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $book->author }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $book->publisher }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $book->year_published }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $book->isbn }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $book->stock }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 capitalize">{{ $book->status }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 flex space-x-1 mt-3.5">
-                            <!-- Button Look -->
-                            <button data-look-book="@json($book)"
-                                class="group relative inline-flex items-center justify-center w-9 h-9 rounded-md bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-center">{{ $book->stock }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 capitalize">
+                            @if ($book->status === 'available')
+                                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-700">
+                                    {{ $book->status }}
+                                </span>
+                            @elseif ($book->status === 'borrowed')
+                                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-700">
+                                    {{ $book->status }}
+                                </span>
+                            @elseif ($book->status === 'inactive')
+                                <span class="px-1 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-700">
+                                    {{ $book->status }}
+                                </span>
+                            @endif
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 flex space-x-1 mt-3.5 gap-1">
+                            <button data-title="{{ $book->title }}"
+                                data-image="{{ $book->cover_image ? asset('storage/' . $book->cover_image) : '' }}"
+                                data-description="{{ strip_tags($book->description) }}"
+                                data-categories='@json($book->categories)'
+                                data-author='{{ $book->author }}'
+                                data-publisher='{{ $book->publisher }}'
+                                class="btn-look-book group relative inline-flex items-center justify-center w-9 h-9 rounded-md bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transition duration-200">
                                 <i class="fa-solid fa-eye"></i>
                             </button>
+
                             <!-- Button Edit -->
                             <button type="button" data-edit-book="{{ $book->id }}"
                                 data-book='@json($book)'
-                                class="inline-flex items-center px-3 py-2 bg-yellow-500 text-white text-sm font-medium rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 transition duration-200">
+                                class="inline-flex items-center px-3 py-1.5 bg-yellow-500 text-white text-sm font-medium rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 transition duration-200">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </button>
 
@@ -161,7 +182,7 @@
                                 @method('DELETE')
                                 <button type="button"
                                     onclick="confirmDelete('{{ $book->title }}' , {{ $book->id }})"
-                                    class="inline-flex items-center px-3 py-2 bg-red-500 text-white text-sm font-medium rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 transition duration-200">
+                                    class="inline-flex items-center px-3 py-2.5 bg-red-500 text-white text-sm font-medium rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 transition duration-200">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
                             </form>
@@ -187,9 +208,12 @@
         <div>
             @include('back.book.edit-book')
         </div>
+
+        <!-- Card look data book -->
+        <div>
+            @include('back.book.look-book')
+        </div>
     </div>
-
-
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -280,5 +304,79 @@
                 }
             })
         }
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const modal = document.getElementById("lookBookModal");
+            const modalContent = document.querySelector('.look-book-modal-content');    
+            const closeButton = document.getElementById("closeLookBook");
+
+            const bookTitle = document.getElementById("bookTitle");
+            const bookAuthor = document.getElementById("bookAuthor");
+            const bookPublisher = document.getElementById("bookPublisher");
+            const bookCover = document.getElementById("bookCover");
+            const bookDescription = document.getElementById("bookDescription");
+            const bookCategories = document.getElementById("bookCategories");
+
+            // open look button 
+            document.querySelectorAll(".btn-look-book").forEach(button => {
+                button.addEventListener("click", function() {
+                    // Ambil data dari atribut tombol
+                    const title = this.getAttribute("data-title");
+                    const author = this.getAttribute("data-author");
+                    const publisher = this.getAttribute("data-publisher");
+                    const image = this.getAttribute("data-image");
+                    const description = this.getAttribute("data-description");
+                    const categories = JSON.parse(this.getAttribute("data-categories"));
+
+                    // Isi data ke modal
+                    bookTitle.textContent = title;
+                    bookAuthor.textContent = author;
+                    bookPublisher.textContent = publisher;
+                    bookCover.src = image;
+                    bookDescription.textContent = description;
+
+                    // Isi kategori
+                    bookCategories.innerHTML = "";
+                    if (categories.length > 0) {
+                        categories.forEach(cat => {
+                            const span = document.createElement("span");
+                            span.textContent = cat.name;
+                            span.className =
+                                "inline bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded shadow";
+                            bookCategories.appendChild(span);
+                        });
+                    } else {
+                        bookCategories.innerHTML =
+                            `<span class="text-gray-400 italic">Tidak ada kategori</span>`;
+                    }
+
+                    // Tampilkan modal
+                    modal.classList.remove("hidden");
+                    modal.classList.add("flex");
+
+                    // Reset animasi supaya selalu jalan
+                    modalContent.classList.remove("slide-up");
+                    void modalContent.offsetWidth; // trik reflow
+                    modalContent.classList.add("slide-up");
+                });
+            });
+
+            if (closeButton) {
+                closeButton.addEventListener("click", function() {
+                    modal.classList.add("hidden");
+                    modal.classList.remove("flex");
+                });
+            }
+
+            // Klik di luar modal
+            modal.addEventListener("click", function(e) {
+                if (e.target === modal) {
+                    modal.classList.add("hidden");
+                    modal.classList.remove("flex");
+                }
+            });
+        });
     </script>
 @endsection

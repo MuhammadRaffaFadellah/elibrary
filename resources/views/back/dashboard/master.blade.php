@@ -34,7 +34,7 @@
     @yield('style')
 </head>
 
-<body class="h-full overflow-auto">
+<body class="h-full overflow-auto bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
     @include('spinner')
 
     <div class="flex flex-col h-full">
@@ -46,9 +46,15 @@
             @include('back.dashboard.sidebar')
 
             <!-- Main content -->
-            <main class="flex-1 overflow-auto p-4 lg:ml-64 sm:ml-0 md:ml-64">
-                <h2 class="font-semibold">@yield('page-title')</h2>
-                <p class="text-xs text-gray-400">@yield('page-description')</p>
+            <main
+                class="flex-1 overflow-auto p-4 lg:ml-64 sm:ml-0 md:ml-64 
+                         bg-gray-50 dark:bg-gray-950">
+                <h2 class="font-semibold text-gray-900 dark:text-white">
+                    @yield('page-title')
+                </h2>
+                <p class="text-xs text-gray-400 dark:text-gray-400">
+                    @yield('page-description')
+                </p>
                 @yield('body')
             </main>
         </div>
@@ -56,6 +62,7 @@
 
     @yield('sscript')
 </body>
+
 
 </html>
 

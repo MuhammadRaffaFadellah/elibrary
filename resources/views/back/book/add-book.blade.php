@@ -45,7 +45,7 @@
 
                     <!-- Categories -->
                     <div>
-                        <label for="categories" class="block text-sm font-medium text-gray-700 uppercase">
+                        <label class="block text-sm font-medium text-gray-700 uppercase">
                             Categories <span class="text-red-700">*</span>
                         </label>
 
@@ -159,48 +159,6 @@
         </form>
     </div>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-
-        const passwordAdminInput = document.getElementById('password-admin-add');
-        const passwordAdminError = document.getElementById('password-admin-error');
-
-        passwordAdminInput.addEventListener('input', function() {
-            if (passwordAdminInput.value.length < 8) {
-                passwordAdminError.classList.remove('hidden');
-            } else {
-                passwordAdminError.classList.add('hidden');
-            }
-        })
-    })
-</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const passwordInput = document.getElementById('password-admin-add');
-        const togglePassword = document.getElementById('togglePassword');
-
-        togglePassword.addEventListener('click', () => {
-            const isPassword = passwordInput.type === 'password';
-            passwordInput.type = isPassword ? 'text' : 'password';
-
-            // Ganti icon dan warna
-            togglePassword.classList.toggle('fa-eye');
-            togglePassword.classList.toggle('fa-eye-slash');
-
-            if (!isPassword) {
-                // Mode sembunyikan password
-                togglePassword.classList.remove('text-green-500');
-                togglePassword.classList.add('text-gray-500');
-            } else {
-                // Mode lihat password
-                togglePassword.classList.remove('text-gray-500');
-                togglePassword.classList.add('text-green-500');
-            }
-        });
-    })
-</script>
 
 <script>
     document.getElementById('cover_image').addEventListener('change', function(event) {
