@@ -45,8 +45,9 @@
 
                 <div class="mb-4 relative">
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 uppercase">Password
-                        <span class="text-red-700">*</span> </label>
-
+                        <span class="text-red-700">*</span>
+                    </label>
+                    
                     <!-- Input password -->
                     <input type="password" name="password" id="password-user-add" required placeholder="Password . . ."
                         class="w-full px-3 py-2 pr-10 border border-gray-300 dark:border-gray-600 rounded-md 
@@ -54,9 +55,7 @@
                         focus:ring focus:ring-blue-200
                         placeholder:text-gray-400 dark:placeholder:text-gray-500">
 
-                    <p id="password-user-error" class="text-red-500 text-xs mt-1 hidden">
-                        Password must be at least 8 characters
-                    </p>
+
 
                     <!-- Icon di dalam input -->
                     <i id="togglePassword"
