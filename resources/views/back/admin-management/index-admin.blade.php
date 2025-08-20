@@ -19,6 +19,43 @@
         .slide-up {
             animation: slideUp 0.4s ease-out;
         }
+
+        /* Dark mode overlay */
+        .swal2-container.swal2-backdrop-show {
+            background-color: rgba(0, 0, 0, 0.6) !important;
+        }
+
+        /* Dark mode box */
+        .swal2-popup {
+            background-color: #1f2937 !important;
+            /* Sesuai warna dark mode-mu */
+            color: #f9fafb !important;
+            border-radius: 10px;
+        }
+
+        /* Judul */
+        .swal2-title {
+            color: #fff !important;
+        }
+
+        /* Teks */
+        .swal2-html-container {
+            color: #d1d5db !important;
+        }
+
+        /* Tombol Yes */
+        .swal2-confirm {
+            background-color: #16a34a !important;
+            border: none;
+            box-shadow: none;
+        }
+
+        /* Tombol No */
+        .swal2-cancel {
+            background-color: #dc2626 !important;
+            border: none;
+            box-shadow: none;
+        }
     </style>
     <div class="wrapper flex flex-wrap md:flex-nowrap mt-3 mb-2.5 gap-2">
         <!-- Form Pencarian -->
@@ -27,14 +64,14 @@
             <input type="hidden" name="order" value="{{ request('order', 'desc') }}" />
             <input type="search" name="search" placeholder="Search . . ."
                 class="flex-grow rounded-l-md border border-gray-300 px-4 py-2 
-                   focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500
-                   bg-white text-gray-900
-                   dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 dark:placeholder-gray-400"
+                    focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500
+                    bg-white text-gray-900
+                    dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 dark:placeholder-gray-400"
                 value="{{ request('search', '') }}">
             <button type="submit"
                 class="px-4 py-2 rounded-r-md bg-blue-500 hover:bg-blue-600 
-                   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 
-                   text-white shadow-md transition duration-200 border border-blue-500">
+                    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 
+                    text-white shadow-md transition duration-200 border border-blue-500">
                 Search
             </button>
         </form>
@@ -43,7 +80,7 @@
         <div x-data="{ open: false }" class="relative w-full md:w-auto">
             <button @click="open = !open"
                 class="w-full md:w-auto px-5 py-2.5 bg-blue-500 text-white rounded-md shadow 
-                   hover:bg-blue-600 flex items-center justify-center gap-2 text-sm">
+                hover:bg-blue-600 flex items-center justify-center gap-2 text-sm">
                 Sort
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
@@ -54,7 +91,7 @@
             <!-- Dropdown Sort -->
             <div x-show="open" @click.away="open = false"
                 class="absolute mt-2 w-40 bg-white rounded-lg shadow-lg overflow-hidden 
-                   border border-gray-200 z-50 dark:bg-gray-800 dark:border-gray-700">
+                    border border-gray-200 z-50 dark:bg-gray-800 dark:border-gray-700">
                 <a href="{{ route('admin.index', ['order' => 'asc']) }}"
                     class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-200">
                     Sort A-Z ⬆️
@@ -69,16 +106,16 @@
         <!-- Button Export -->
         <button type="button"
             class="w-full md:w-auto px-4 py-2 rounded-md bg-gray-400 hover:bg-gray-500 
-               focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 
-               text-white shadow-md transition duration-200 text-sm">
+                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 
+                text-white shadow-md transition duration-200 text-sm">
             <i class="fa-solid fa-print"></i> Export as Excel
         </button>
 
         <!-- Button Tambah -->
         <button id="openAddModal"
             class="w-full md:w-auto px-4 py-2 rounded-md bg-green-600 hover:bg-green-700 
-               focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600 
-               text-white font-medium shadow-md transition duration-250 text-sm">
+                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600 
+                text-white font-medium shadow-md transition duration-250 text-sm">
             <i class="fa-solid fa-plus"></i>
         </button>
     </div>
@@ -152,11 +189,11 @@
                                 @method('DELETE')
                                 <button type="button"
                                     onclick="confirmDelete('{{ $admin->name }}' , {{ $admin->id }})"
-                                    class="group relative inline-flex items-center justify-center w-9 h-9 rounded-md bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 transition duration-200">
+                                    class="group relative inline-flex items-center justify-center w-9 h-9 rounded-md bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 transition duration-200">
                                     <i class="fa-solid fa-trash"></i>
                                     <span
                                         class="absolute bottom-full mb-1 hidden group-hover:block text-xs text-white bg-gray-800 px-2 py-1 rounded-md shadow-md">
-                                        Hapus
+                                        Delete
                                     </span>
                                 </button>
                             </form>
@@ -204,10 +241,10 @@
                     onclick="document.getElementById('toast-success').remove()">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414
-                                    1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
-                                    1.414L10 11.414l-4.293 4.293a1 1 0
-                                    01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
-                                    010-1.414z" clip-rule="evenodd" />
+                                                                    1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
+                                                                    1.414L10 11.414l-4.293 4.293a1 1 0
+                                                                    01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
+                                                                    010-1.414z" clip-rule="evenodd" />
                     </svg>
                 </button>
             </div>
@@ -248,10 +285,10 @@
                     onclick="document.getElementById('toast-deleted').remove()">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414
-                                        1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
-                                        1.414L10 11.414l-4.293 4.293a1 1 0
-                                        01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
-                                        010-1.414z" clip-rule="evenodd" />
+                                                                        1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
+                                                                        1.414L10 11.414l-4.293 4.293a1 1 0
+                                                                        01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
+                                                                        010-1.414z" clip-rule="evenodd" />
                     </svg>
                 </button>
             </div>
@@ -289,10 +326,10 @@
                     onclick="document.getElementById('toast-error').remove()">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414
-                                            1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
-                                            1.414L10 11.414l-4.293 4.293a1 1 0
-                                            01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
-                                            010-1.414z" clip-rule="evenodd" />
+                                                1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
+                                                1.414L10 11.414l-4.293 4.293a1 1 0
+                                                01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
+                                                010-1.414z" clip-rule="evenodd" />
                     </svg>
                 </button>
             </div>
@@ -346,64 +383,62 @@
             });
         });
 
-        // SweetAlert untuk session deleted
         function confirmDelete(userName, userId) {
             Swal.fire({
+                heightAuto: false, // ⬅️ ini kunci utamanya
                 icon: "question",
                 title: `Delete ${userName}?`,
                 text: "Are you sure you want to delete this Admin?",
                 showConfirmButton: true,
                 showCancelButton: true,
                 confirmButtonText: `<i class="fa-solid fa-check"></i> Yes`,
-                confirmButtonColor: "#7ADAA5",
+                confirmButtonColor: "#16a34a",
                 cancelButtonText: `<i class="fa-solid fa-xmark"></i> No`,
-                cancelButtonColor: "#D92C54",
+                cancelButtonColor: "#dc2626",
+                background: "#1f2937",
+                color: "#f9fafb",
                 customClass: {
-                    confirmButton: 'bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600',
-                    cancelButton: 'bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-600'
+                    popup: "rounded-lg shadow-xl",
+                    confirmButton: "bg-green-600 hover:bg-green-700 focus:ring-2 focus:ring-green-500 text-white px-4 py-2 rounded",
+                    cancelButton: "bg-red-600 hover:bg-red-700 focus:ring-2 focus:ring-red-500 text-white px-4 py-2 rounded"
                 },
                 showClass: {
-                    popup: `
-                        animate__animated
-                        animate__fadeInUp
-                        animate__faster
-                    `
+                    popup: `animate__animated animate__fadeInUp animate__faster`
                 },
                 hideClass: {
-                    popup: `
-                        animate__animated
-                        animate__fadeOutDown
-                        animate__faster
-                    `
+                    popup: `animate__animated animate__fadeOutDown animate__faster`
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
                     Swal.fire({
+                        heightAuto: false, // ⬅️ tambahkan juga di popup berikutnya
                         icon: "success",
                         title: "Deleted!",
                         text: "Admin has been deleted successfully.",
-                        timer: 5000,
+                        background: "#1f2937",
+                        color: "#f9fafb",
                         showConfirmButton: true,
-                        confirmButtoText: 'OK',
+                        confirmButtonText: "OK",
                         customClass: {
-                            confirmButton: 'bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600',
+                            confirmButton: "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
                         }
-                    }).then(() => {
-                        document.getElementById(`deleteForm-${userId}`).submit();
-                    })
+                    }).then(() => document.getElementById(`deleteForm-${userId}`).submit());
                 } else if (result.dismiss === Swal.DismissReason.cancel) {
                     Swal.fire({
+                        heightAuto: false,
                         icon: "error",
                         title: "Cancelled!",
                         text: "Admin deletion has been cancelled.",
+                        background: "#1f2937",
+                        color: "#f9fafb",
                         showConfirmButton: true,
-                        confirmButtonText: 'OK',
+                        confirmButtonText: "OK",
                         customClass: {
-                            confirmButton: 'bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600',
+                            confirmButton: "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
                         }
                     });
                 }
-            })
+            });
         }
     </script>
 
