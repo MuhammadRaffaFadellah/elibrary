@@ -19,43 +19,6 @@
         .slide-up {
             animation: slideUp 0.4s ease-out;
         }
-
-        /* Dark mode overlay */
-        .swal2-container.swal2-backdrop-show {
-            background-color: rgba(0, 0, 0, 0.6) !important;
-        }
-
-        /* Dark mode box */
-        .swal2-popup {
-            background-color: #1f2937 !important;
-            /* Sesuai warna dark mode-mu */
-            color: #f9fafb !important;
-            border-radius: 10px;
-        }
-
-        /* Judul */
-        .swal2-title {
-            color: #fff !important;
-        }
-
-        /* Teks */
-        .swal2-html-container {
-            color: #d1d5db !important;
-        }
-
-        /* Tombol Yes */
-        .swal2-confirm {
-            background-color: #16a34a !important;
-            border: none;
-            box-shadow: none;
-        }
-
-        /* Tombol No */
-        .swal2-cancel {
-            background-color: #dc2626 !important;
-            border: none;
-            box-shadow: none;
-        }
     </style>
     <div class="wrapper flex flex-wrap md:flex-nowrap mt-3 mb-2.5 gap-2">
         <!-- Form Pencarian -->

@@ -26,10 +26,15 @@
             class="flex w-full md:flex-grow lg:w-auto md:w-auto sm:w-full">
             <input type="hidden" name="order" value="{{ request('order', 'desc') }}" />
             <input type="search" name="search" placeholder="Search . . ."
-                class="flex-grow rounded-l-md border border-gray-300 px-4 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                class="flex-grow rounded-l-md border border-gray-300 px-4 py-2 
+                    focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500
+                    bg-white text-gray-900
+                    dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 dark:placeholder-gray-400"
                 value="{{ request('search', '') }}">
             <button type="submit"
-                class="px-4 py-2 rounded-r-md bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 text-white shadow-md transition duration-200 border border-blue-500 text-sm">
+                class="px-4 py-2 rounded-r-md bg-blue-500 hover:bg-blue-600 
+                    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 
+                    text-white shadow-md transition duration-200 border border-blue-500">
                 Search
             </button>
         </form>
@@ -46,11 +51,14 @@
             </button>
 
             <div x-show="open" @click.away="open = false"
-                class="absolute mt-2 w-40 bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200 z-50">
-                <a href="{{ route('category.index', ['order' => 'asc']) }}" class="block px-4 py-2 hover:bg-gray-100">
+                class="absolute mt-2 w-40 bg-white rounded-lg shadow-lg overflow-hidden 
+                    border border-gray-200 z-50 dark:bg-gray-800 dark:border-gray-700">
+                <a href="{{ route('category.index', ['order' => 'asc']) }}"
+                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-200">
                     Sort A-Z ⬆️
                 </a>
-                <a href="{{ route('category.index', ['order' => 'desc']) }}" class="block px-4 py-2 hover:bg-gray-100">
+                <a href="{{ route('category.index', ['order' => 'desc']) }}"
+                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-200">
                     Sort Z-A ⬇️
                 </a>
             </div>
@@ -58,50 +66,56 @@
 
         <!-- Button export -->
         <button type="button"
-            class="w-full md:w-auto px-4 py-2 rounded-md bg-gray-400 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 text-white shadow-md transition duration-200 text-sm">
+            class="w-full md:w-auto px-4 py-2 rounded-md bg-gray-400 hover:bg-gray-500 
+                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 
+                text-white shadow-md transition duration-200 text-sm">
             <i class="fa-solid fa-print"></i> Export as Excel
         </button>
 
         <!-- Button Tambah -->
         <button id="openAddModal"
-            class="w-full md:w-auto px-4 py-2 rounded-md bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600 text-white font-medium shadow-md transition duration-250 text-sm">
+            class="w-full md:w-auto px-4 py-2 rounded-md bg-green-600 hover:bg-green-700 
+                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600 
+                text-white font-medium shadow-md transition duration-250 text-sm">
             <i class="fa-solid fa-plus"></i>
         </button>
     </div>
 
     <div class="overflow-x-auto">
         <!-- Category table -->
-        <table class="w-full min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
+        <table class="w-full min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+            <thead class="bg-gray-50 dark:bg-gray-800">
                 <tr>
                     <th scope="col"
-                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
                         No
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
                         Name
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
                         Slug
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
                         Action
                     </th>
                 </tr>
             </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
+            <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-900 dark:divide-gray-700">
                 @forelse ($categories as $category)
-                    <tr class="hover:bg-gray-100">
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-center">
+                    <tr class="hover:bg-gray-100 dark:hover:bg-gray-800">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200 text-center">
                             {{ $loop->iteration + ($categories->currentPage() - 1) * $categories->perPage() }}.
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $category->name }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $category->slug }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200 text-center">
+                            {{ $category->name }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200 text-center">
+                            {{ $category->slug }}</td>
                         <td
-                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 flex space-x-2 align-items-center justify-center">
+                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200 flex space-x-2 align-items-center justify-center">
                             <!-- Tombol Lihat -->
                             <button
                                 onclick="openLookCard('{{ $category->name }}', '{{ $category->slug }}', '{{ $category->description }}')"
@@ -109,7 +123,7 @@
                                 <i class="fa-solid fa-eye"></i>
                                 <span
                                     class="absolute bottom-full mb-1 hidden group-hover:block text-xs text-white bg-gray-800 px-2 py-1 rounded-md shadow-md">
-                                    Lihat
+                                    Look
                                 </span>
                             </button>
 
@@ -135,7 +149,7 @@
                                     <i class="fa-solid fa-trash"></i>
                                     <span
                                         class="absolute bottom-full mb-1 hidden group-hover:block text-xs text-white bg-gray-800 px-2 py-1 rounded-md shadow-md">
-                                        Hapus
+                                        Delete
                                     </span>
                                 </button>
                             </form>
@@ -193,10 +207,10 @@
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd"
                             d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414
-                                                                                                                                                    1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
-                                                                                                                                                    1.414L10 11.414l-4.293 4.293a1 1 0
-                                                                                                                                                    01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
-                                                                                                                                                    010-1.414z"
+                                                                                                                                                                                                                        1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
+                                                                                                                                                                                                                        1.414L10 11.414l-4.293 4.293a1 1 0
+                                                                                                                                                                                                                        01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
+                                                                                                                                                                                                                        010-1.414z"
                             clip-rule="evenodd" />
                     </svg>
                 </button>
@@ -243,10 +257,10 @@
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd"
                             d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414
-                                                                                                                                                            1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
-                                                                                                                                                            1.414L10 11.414l-4.293 4.293a1 1 0
-                                                                                                                                                            01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
-                                                                                                                                                            010-1.414z"
+                                                                                                                                                                                                                                1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
+                                                                                                                                                                                                                                1.414L10 11.414l-4.293 4.293a1 1 0
+                                                                                                                                                                                                                                01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
+                                                                                                                                                                                                                                010-1.414z"
                             clip-rule="evenodd" />
                     </svg>
                 </button>
@@ -290,10 +304,10 @@
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd"
                             d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414
-                                                                                                                                                1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
-                                                                                                                                                1.414L10 11.414l-4.293 4.293a1 1 0
-                                                                                                                                                01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
-                                                                                                                                                010-1.414z"
+                                                                                                                                                                                                                    1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
+                                                                                                                                                                                                                    1.414L10 11.414l-4.293 4.293a1 1 0
+                                                                                                                                                                                                                    01-1.414-1.414L8.586 10 4.293 5.707a1 1 0
+                                                                                                                                                                                                                    010-1.414z"
                             clip-rule="evenodd" />
                     </svg>
                 </button>
@@ -350,6 +364,7 @@
         // SweetAlert untuk session deleted
         function confirmDelete(userName, userId) {
             Swal.fire({
+                heightAuto: false,
                 icon: "question",
                 title: `Delete ${userName}?`,
                 text: "Are you sure you want to delete this Category?",
@@ -359,7 +374,10 @@
                 confirmButtonColor: "#7ADAA5",
                 cancelButtonText: `<i class="fa-solid fa-xmark"></i> No`,
                 cancelButtonColor: "#D92C54",
+                background: "#1f2937",
+                color: "#f9fafb",
                 customClass: {
+                    popup: "rounded-lg shadow-xl",
                     confirmButton: 'bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600',
                     cancelButton: 'bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-600'
                 },
@@ -380,12 +398,15 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     Swal.fire({
+                        heightAuto: false,
                         icon: "success",
                         title: "Deleted!",
                         text: "Category has been deleted successfully.",
                         timer: 5000,
                         showConfirmButton: true,
                         confirmButtoText: 'OK',
+                        background: "#1f2937",
+                        color: "#f9fafb",
                         customClass: {
                             confirmButton: 'bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600',
                         }
@@ -394,11 +415,14 @@
                     })
                 } else if (result.dismiss === Swal.DismissReason.cancel) {
                     Swal.fire({
+                        heightAuto: false,
                         icon: "error",
                         title: "Cancelled!",
                         text: "Category deletion has been cancelled.",
                         showConfirmButton: true,
                         confirmButtonText: 'OK',
+                        background: "#1f2937",
+                        color: "#f9fafb",
                         customClass: {
                             confirmButton: 'bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600',
                         }
@@ -446,6 +470,7 @@
             })
 
             cancelEditButton.addEventListener('click', hideEditModal);
+            closeEditButton.addEventListener('click', hideEditModal);
 
             // klik luar modal = close
             editModal.addEventListener('click', (e) => {
