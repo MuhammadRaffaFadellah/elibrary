@@ -24,10 +24,15 @@
         <form action="{{ route('book.index') }}" method="GET" class="flex flex-grow">
             <input type="hidden" name="order" value="{{ request('order', 'desc') }}" />
             <input type="search" name="search" placeholder="Search . . ."
-                class="flex-grow rounded-l-md border border-gray-300 px-4 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                class="flex-grow rounded-l-md border border-gray-300 px-4 py-2 
+                    focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500
+                    bg-white text-gray-900
+                    dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 dark:placeholder-gray-400"
                 value="{{ request('search', '') }}">
             <button type="submit"
-                class="px-4 py-2 rounded-r-md bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 text-white shadow-md transition duration-200 border border-blue-500">
+                class="px-4 py-2 rounded-r-md bg-blue-500 hover:bg-blue-600 
+                    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 
+                    text-white shadow-md transition duration-200 border border-blue-500">
                 Search
             </button>
         </form>
@@ -44,11 +49,14 @@
             </button>
 
             <div x-show="open" @click.away="open = false"
-                class="absolute mt-2 w-40 bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200 z-50">
-                <a href="{{ route('book.index', ['order' => 'asc']) }}" class="block px-4 py-2 hover:bg-gray-100">
+                class="absolute mt-2 w-40 bg-white rounded-lg shadow-lg overflow-hidden 
+                    border border-gray-200 z-50 dark:bg-gray-800 dark:border-gray-700">
+                <a href="{{ route('book.index', ['order' => 'asc']) }}"
+                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-200">
                     Sort A-Z ⬆️
                 </a>
-                <a href="{{ route('book.index', ['order' => 'desc']) }}" class="block px-4 py-2 hover:bg-gray-100">
+                <a href="{{ route('book.index', ['order' => 'desc']) }}"
+                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-200">
                     Sort Z-A ⬇️
                 </a>
             </div>
@@ -56,93 +64,104 @@
 
         <!-- Button export -->
         <button type="button"
-            class="w-full md:w-auto px-4 py-2 rounded-md bg-gray-400 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 text-white shadow-md transition duration-200 text-sm">
+            class="w-full md:w-auto px-4 py-2 rounded-md bg-gray-400 hover:bg-gray-500 
+                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 
+                text-white shadow-md transition duration-200 text-sm">
             <i class="fa-solid fa-print"></i> Export as Excel
         </button>
 
         <!-- Button Tambah -->
         <button id="openAddModal"
-            class="w-full md:w-auto px-4 py-2 rounded-md bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600 text-white font-medium shadow-md transition duration-250 text-sm">
+            class="w-full md:w-auto px-4 py-2 rounded-md bg-green-600 hover:bg-green-700 
+                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600 
+                text-white font-medium shadow-md transition duration-250 text-sm">
             <i class="fa-solid fa-plus"></i>
         </button>
     </div>
 
     <div class="overflow-x-auto">
         <!-- Books table -->
-        <table class="w-full min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
+        <table class="w-full min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+            <thead class="bg-gray-50 dark:bg-gray-800">
                 <tr>
                     <th scope="col"
-                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
                         No
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
                         Cover
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
                         Title
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
                         Category
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
                         Author
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
                         Publisher
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
                         Year
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
                         ISBN
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
                         Stock
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
                         Status
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
                         Action
                     </th>
                 </tr>
             </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
+            <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-900 dark:divide-gray-700">
                 @forelse ($books as $book)
-                    <tr class="hover:bg-gray-100">
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-center">
+                    <tr class="hover:bg-gray-100 dark:hover:bg-gray-800">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200 text-center">
                             {{ $loop->iteration + ($books->currentPage() - 1) * $books->perPage() }}.
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                             <img src="{{ asset('storage/' . $book->cover_image) }}" alt="Book Cover" class="h-16 rounded">
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $book->title }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 ">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200">{{ $book->title }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200 ">
                             <div class="flex justify-center gap-2">
                                 @foreach ($book->categories as $category)
-                                    <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded justify-center font-semibold">
+                                    <span
+                                        class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded justify-center font-semibold">
                                         {{ $category->name }}
                                     </span>
                                 @endforeach
                             </div>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $book->author }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $book->publisher }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $book->year_published }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $book->isbn }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-center">{{ $book->stock }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 capitalize">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200">{{ $book->author }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200">
+                            {{ $book->publisher }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200">
+                            {{ $book->year_published }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200">
+                            {{ $book->isbn }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200 text-center">
+                            {{ $book->stock }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200 capitalize">
                             @if ($book->status === 'available')
                                 <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-700">
                                     {{ $book->status }}
@@ -161,18 +180,25 @@
                             <button data-title="{{ $book->title }}"
                                 data-image="{{ $book->cover_image ? asset('storage/' . $book->cover_image) : '' }}"
                                 data-description="{{ strip_tags($book->description) }}"
-                                data-categories='@json($book->categories)'
-                                data-author='{{ $book->author }}'
+                                data-categories='@json($book->categories)' data-author='{{ $book->author }}'
                                 data-publisher='{{ $book->publisher }}'
-                                class="btn-look-book group relative inline-flex items-center justify-center w-9 h-9 rounded-md bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transition duration-200">
+                                class="btn-look-book group relative inline-flex items-center justify-center w-9 h-9 rounded-md bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200">
                                 <i class="fa-solid fa-eye"></i>
+                                <span
+                                    class="absolute bottom-full mb-1 hidden group-hover:block text-xs text-white bg-gray-800 px-2 py-1 rounded-md shadow-md">
+                                    Look
+                                </span>
                             </button>
 
                             <!-- Button Edit -->
                             <button type="button" data-edit-book="{{ $book->id }}"
                                 data-book='@json($book)'
-                                class="inline-flex items-center px-3 py-1.5 bg-yellow-500 text-white text-sm font-medium rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 transition duration-200">
+                                class="group relative inline-flex items-center justify-center w-9 h-9 rounded-md bg-yellow-500 text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition duration-200">
                                 <i class="fa-solid fa-pen-to-square"></i>
+                                <span
+                                    class="absolute bottom-full mb-1 hidden group-hover:block text-xs text-white bg-gray-800 px-2 py-1 rounded-md shadow-md">
+                                    Edit
+                                </span>
                             </button>
 
                             <!-- Button Delete -->
@@ -182,8 +208,12 @@
                                 @method('DELETE')
                                 <button type="button"
                                     onclick="confirmDelete('{{ $book->title }}' , {{ $book->id }})"
-                                    class="inline-flex items-center px-3 py-2.5 bg-red-500 text-white text-sm font-medium rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 transition duration-200">
+                                    class="group relative inline-flex items-center justify-center w-9 h-9 rounded-md bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 transition duration-200">
                                     <i class="fa-solid fa-trash"></i>
+                                    <span
+                                        class="absolute bottom-full mb-1 hidden group-hover:block text-xs text-white bg-gray-800 px-2 py-1 rounded-md shadow-md">
+                                        Delete
+                                    </span>
                                 </button>
                             </form>
                         </td>
@@ -309,7 +339,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const modal = document.getElementById("lookBookModal");
-            const modalContent = document.querySelector('.look-book-modal-content');    
+            const modalContent = document.querySelector('.look-book-modal-content');
             const closeButton = document.getElementById("closeLookBook");
 
             const bookTitle = document.getElementById("bookTitle");
