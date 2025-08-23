@@ -7,6 +7,7 @@ use App\Models\Books as Book;
 use App\Models\Categories;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
 {
@@ -108,7 +109,55 @@ class BookController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try {
+            $book = Book::findOrFail($id);
+
+            $validated = $request->validate([
+                'categories'       => 'nullable|array',
+                'categories.*'     => 'exists:categories,id',
+                'title'            => 'required|string|max:255',
+                'slug'             => 'nullable|string|max:255',
+                'author'           => 'required|string|max:255',
+                'publisher'        => 'required|string|max:255',
+                'description'      => 'nullable|string',
+                'year_published'   => 'required|integer|digits:4',
+                'stock'            => 'required|integer|min:0',
+                'isbn'             => 'nullable|string|max:20',
+                'cover_image'      => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+                'file_path'        => 'nullable|file|mimes:pdf,epub,mobi,doc,docx|max:5120',
+            ]);
+
+            // COVER
+            if ($request->hasFile('cover_image')) {
+                if ($book->cover_image && Storage::disk('public')->exists($book->cover_image)) {
+                    Storage::disk('public')->delete($book->cover_image);
+                }
+                $validated['cover_image'] = $request->file('cover_image')->store('covers', 'public');
+            } else {
+                $validated['cover_image'] = $book->cover_image; // keep lama
+            }
+
+            // FILE
+            if ($request->hasFile('file_path')) {
+                if ($book->file_path && Storage::disk('public')->exists($book->file_path)) {
+                    Storage::disk('public')->delete($book->file_path);
+                }
+                $validated['file_path'] = $request->file('file_path')->store('files', 'public');
+            } else {
+                $validated['file_path'] = $book->file_path; // keep lama
+            }
+
+            $book->update($validated);
+
+            // KATEGORI (biarkan tetap, kecuali dikirim)
+            if ($request->has('categories') && is_array($request->categories)) {
+                $book->categories()->sync($request->categories);
+            }
+
+            return back()->with('success', 'Book updated successfully.');
+        } catch (QueryException $e) {
+            return back()->with('error', 'Failed to update book: ' . $e->getMessage() . '.');
+        }
     }
 
     /**

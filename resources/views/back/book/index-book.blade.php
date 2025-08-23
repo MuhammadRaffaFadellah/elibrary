@@ -189,10 +189,30 @@
                                     Look
                                 </span>
                             </button>
+                            @php
+                                $bookPayload = [
+                                    'id' => $book->id,
+                                    'title' => $book->title,
+                                    'slug' => $book->slug,
+                                    'author' => $book->author,
+                                    'publisher' => $book->publisher,
+                                    'description' => $book->description,
+                                    'year_published' => $book->year_published,
+                                    'stock' => $book->stock,
+                                    'isbn' => $book->isbn,
 
-                            <!-- Button Edit -->
-                            <button type="button" data-edit-book="{{ $book->id }}"
-                                data-book='@json($book)'
+                                    // path & URL public
+                                    'cover_image' => $book->cover_image,
+                                    'cover_url' => $book->cover_image ? Storage::url($book->cover_image) : null,
+                                    'file_path' => $book->file_path,
+                                    'file_url' => $book->file_path ? Storage::url($book->file_path) : null,
+
+                                    // array ID category
+                                    'categories' => $book->categories ? $book->categories->pluck('id') : [],
+                                ];
+                            @endphp
+
+                            <button type="button" data-edit-book='@json($bookPayload)'
                                 class="group relative inline-flex items-center justify-center w-9 h-9 rounded-md bg-yellow-500 text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition duration-200">
                                 <i class="fa-solid fa-pen-to-square"></i>
                                 <span
@@ -200,6 +220,7 @@
                                     Edit
                                 </span>
                             </button>
+
 
                             <!-- Button Delete -->
                             <form id="deleteForm-{{ $book->id }}" action="{{ route('book.delete', $book->id) }}"
@@ -334,6 +355,130 @@
                 }
             })
         }
+    </script>
+
+    <!-- Edit Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const editButtons = document.querySelectorAll('[data-edit-book]');
+            const editModal = document.getElementById('editBookModal');
+            const editModalContent = editModal.querySelector('.edit-book-modal-content');
+            const closeEditButton = document.getElementById('closeEditBookFormButton');
+            const cancelEditButton = document.getElementById('cancelEditBookButton');
+
+            const editCoverInput = document.getElementById('edit_cover_image');
+            const editCoverPreview = document.getElementById('editCoverPreview');
+            const oldCoverInput = document.getElementById('old_cover'); // bisa null
+            const editFileInput = document.getElementById('edit_file_path');
+            const oldFileInput = document.getElementById('old_file_path'); // bisa null
+            const currentFile = document.getElementById('currentFile'); // bisa null
+            const fileLink = document.getElementById('fileLink'); // bisa null
+
+            function showEditModal() {
+                editModal.classList.remove('hidden');
+                editModalContent.classList.remove('slide-up');
+                void editModalContent.offsetWidth;
+                editModalContent.classList.add('slide-up');
+            }
+
+            function hideEditModal() {
+                editModal.classList.add('hidden');
+            }
+
+            editButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    let book;
+                    try {
+                        book = JSON.parse(this.getAttribute('data-edit-book'));
+                    } catch (e) {
+                        console.error('data-edit-book invalid', e);
+                        return;
+                    }
+
+                    showEditModal();
+
+                    const form = editModal.querySelector('form#bookEditForm');
+                    form.action = `/book/process/edit/${book.id}`;
+
+                    // isi input teks
+                    document.getElementById('edit_title').value = book.title ?? '';
+                    document.getElementById('editBookSlug').value = book.slug ?? '';
+                    document.getElementById('edit_author').value = book.author ?? '';
+                    document.getElementById('edit_publisher').value = book.publisher ?? '';
+                    document.getElementById('edit_description').value = book.description ?? '';
+                    document.getElementById('edit_year_published').value = book.year_published ??
+                    '';
+                    document.getElementById('edit_stock').value = book.stock ?? '';
+                    document.getElementById('edit_isbn').value = book.isbn ?? '';
+
+                    // COVER lama → pakai cover_url, fallback ke /storage/cover_image
+                    const coverUrl = book.cover_url || (book.cover_image ?
+                        `/storage/${book.cover_image}` : null);
+                    if (coverUrl) {
+                        editCoverPreview.src = coverUrl;
+                        editCoverPreview.classList.remove('hidden');
+                        if (oldCoverInput) oldCoverInput.value = book.cover_image ?? '';
+                    } else {
+                        editCoverPreview.classList.add('hidden');
+                        if (oldCoverInput) oldCoverInput.value = '';
+                    }
+                    if (editCoverInput) editCoverInput.value = '';
+
+                    // FILE lama → tampilkan link jika ada
+                    const fileUrl = book.file_url || (book.file_path ?
+                        `/storage/${book.file_path}` : null);
+                    if (fileUrl && currentFile && fileLink) {
+                        fileLink.href = fileUrl;
+                        currentFile.classList.remove('hidden');
+                        if (oldFileInput) oldFileInput.value = book.file_path ?? '';
+                    } else {
+                        if (currentFile) currentFile.classList.add('hidden');
+                        if (oldFileInput) oldFileInput.value = '';
+                    }
+                    if (editFileInput) editFileInput.value = '';
+
+                    // KATEGORI → normalisasi ke array ID
+                    const categoryCheckboxes = form.querySelectorAll('input[name="categories[]"]');
+                    categoryCheckboxes.forEach(cb => cb.checked = false);
+
+                    let selectedIds = [];
+                    if (Array.isArray(book.categories)) {
+                        selectedIds = book.categories.map(c => (typeof c === 'object' && c !==
+                            null) ? c.id : c);
+                    }
+                    selectedIds.forEach(id => {
+                        const cb = form.querySelector(
+                            `input[name="categories[]"][value="${id}"]`);
+                        if (cb) cb.checked = true;
+                    });
+                });
+            });
+
+            // preview cover baru
+            if (editCoverInput) {
+                editCoverInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        editCoverPreview.src = URL.createObjectURL(file);
+                        editCoverPreview.classList.remove('hidden');
+                    }
+                });
+            }
+
+            cancelEditButton.addEventListener('click', hideEditModal);
+            closeEditButton.addEventListener('click', hideEditModal);
+            editModal.addEventListener('click', (e) => {
+                if (e.target === editModal) hideEditModal();
+            });
+
+            // auto-slug
+            const titleInput = document.getElementById('edit_title');
+            const slugInput = document.getElementById('editBookSlug');
+            titleInput.addEventListener('input', function() {
+                slugInput.value = this.value.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(
+                    /^-+|-+$/g, '');
+            });
+        });
     </script>
 
     <script>

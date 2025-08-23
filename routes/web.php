@@ -25,12 +25,13 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin,super_admin'])->group
     // Category Routes
     Route::get('/category', [CategoryController::class,'index'])->name('category.index');
     Route::post('/category/process/add', [CategoryController::class, 'store'])->name('category.store');
-    Route::put('/category/process/edit/{id}', [CategoryController::class, 'update'])->name('category.update');
+    Route::put('/category/process/edit/{id}', [CategoryController::class, 'update'])->name('        .update');
     Route::delete('/category/delete/{id}', [CategoryController::class,'destroy'])->name('category.delete');
 
     // Book Routes
     Route::get('/books', [BookController::class, 'index'])->name('book.index');
     Route::post('/books/process/add', [BookController::class, 'store'])->name('book.store');
+    Route::put('/books/process/edit/{id}', [BookController::class, 'update'])->name('book.update');
     Route::delete('/books/delete/{id}', [BookController::class,'destroy'])->name('book.delete');
 });
 
