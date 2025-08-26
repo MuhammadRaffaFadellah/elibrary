@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer('stock');
             $table->string('file_path')->nullable();
             $table->enum('status', ['available','borrowed', 'inactive']);
+            $table->boolean('is_recommended')->default(false);
             $table->timestamps();
         });
     }

@@ -70,6 +70,21 @@
                             @endif
                         </div>
                     </div>
+
+                    <!-- Rekomendasi -->
+                    <div class="mt-6">
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="hidden" name="is_recommended" value="0">
+                            <input type="checkbox" name="is_recommended" value="1"
+                                class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                            <span class="text-gray-700 dark:text-gray-300 font-sm font-medium">Buku
+                                Rekomendasi</span>
+                        </label>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 ml-8 mt-1">
+                            Centang jika buku ini ingin ditampilkan di halaman rekomendasi.
+                        </p>
+                    </div>
+
                 </div>
 
                 <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">

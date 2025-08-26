@@ -21,6 +21,7 @@ class Books extends Model
         'file_path',
         'stock',
         'status',
+        'is_recommended'
     ];
 
     public function categories()

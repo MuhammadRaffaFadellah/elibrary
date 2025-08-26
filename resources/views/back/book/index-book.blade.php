@@ -126,6 +126,10 @@
                     </th>
                     <th scope="col"
                         class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
+                        Recommended
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">
                         Action
                     </th>
                 </tr>
@@ -176,6 +180,19 @@
                                 </span>
                             @endif
                         </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200 text-center">
+                            @if ($book->is_recommended)
+                                <span
+                                    class="inline-flex items-center justify-center px-2 py-1 text-green-600 bg-green-100 rounded-full">
+                                    <i class="fa-solid fa-check"></i>
+                                </span>
+                            @else
+                                <span
+                                    class="inline-flex items-center justify-center px-2 py-1 text-red-600 bg-red-100 rounded-full">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </span>
+                            @endif
+                        </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 flex space-x-1 mt-3.5 gap-1">
                             <button data-title="{{ $book->title }}"
                                 data-image="{{ $book->cover_image ? asset('storage/' . $book->cover_image) : '' }}"
@@ -221,7 +238,6 @@
                                 </span>
                             </button>
 
-
                             <!-- Button Delete -->
                             <form id="deleteForm-{{ $book->id }}" action="{{ route('book.delete', $book->id) }}"
                                 method="POST">
@@ -241,7 +257,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="10" class="text-center text-xs text-gray-400 py-2">No book data registered.</td>
+                        <td colspan="12" class="text-center text-xs text-gray-400 py-2">No book data registered.</td>
                     </tr>
                 @endforelse
             </tbody>
@@ -298,62 +314,90 @@
 
         // SweetAlert untuk session deleted
         function confirmDelete(userName, userId) {
+            // Detect if the dark mode is on or not
+            const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+            // Warna untuk dark mode & light mode
+            const theme = {
+                background: isDarkMode ? "#1f2937" : "#ffffff",
+                color: isDarkMode ? "#f9fafb" : "#1f2937",
+                confirmButton: isDarkMode ?
+                    "bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600" :
+                    "bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-700",
+                cancelButton: isDarkMode ?
+                "bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-600" :
+                "bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-700",
+                infoButton: isDarkMode ?
+                "bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" :
+                    "bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-700",
+            };
+
             Swal.fire({
+                heightAuto: false,
                 icon: "question",
                 title: `Delete ${userName}?`,
                 text: "Are you sure you want to delete this book?",
                 showConfirmButton: true,
                 showCancelButton: true,
                 confirmButtonText: `<i class="fa-solid fa-check"></i> Yes`,
-                confirmButtonColor: "#7ADAA5",
                 cancelButtonText: `<i class="fa-solid fa-xmark"></i> No`,
+                confirmButtonColor: "#7ADAA5",
                 cancelButtonColor: "#D92C54",
+                background: theme.background,
+                color: theme.color,
                 customClass: {
-                    confirmButton: 'bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600',
-                    cancelButton: 'bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-600'
+                    popup: "rounded-lg shadow-xl",
+                    confirmButton: theme.confirmButton,
+                    cancelButton: theme.cancelButton,
                 },
                 showClass: {
                     popup: `
-                        animate__animated
-                        animate__fadeInUp
-                        animate__faster
-                    `
+                animate__animated
+                animate__fadeInUp
+                animate__faster
+            `
                 },
                 hideClass: {
                     popup: `
-                        animate__animated
-                        animate__fadeOutDown
-                        animate__faster
-                    `
+                animate__animated
+                animate__fadeOutDown
+                animate__faster
+            `
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
                     Swal.fire({
+                        heightAuto: false,
                         icon: "success",
                         title: "Deleted!",
                         text: "Book has been deleted successfully.",
-                        timer: 5000,
+                        timer: 3000,
                         showConfirmButton: true,
-                        confirmButtoText: 'OK',
+                        confirmButtonText: 'OK',
+                        background: theme.background,
+                        color: theme.color,
                         customClass: {
-                            confirmButton: 'bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600',
+                            confirmButton: theme.infoButton,
                         }
                     }).then(() => {
                         document.getElementById(`deleteForm-${userId}`).submit();
-                    })
+                    });
                 } else if (result.dismiss === Swal.DismissReason.cancel) {
                     Swal.fire({
+                        heightAuto: false,
                         icon: "error",
                         title: "Cancelled!",
                         text: "Admin deletion has been cancelled.",
                         showConfirmButton: true,
                         confirmButtonText: 'OK',
+                        background: theme.background,
+                        color: theme.color,
                         customClass: {
-                            confirmButton: 'bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600',
+                            confirmButton: theme.infoButton,
                         }
                     });
                 }
-            })
+            });
         }
     </script>
 
@@ -398,7 +442,7 @@
                     showEditModal();
 
                     const form = editModal.querySelector('form#bookEditForm');
-                    form.action = `/book/process/edit/${book.id}`;
+                    form.action = `/books/process/edit/${book.id}`;
 
                     // isi input teks
                     document.getElementById('edit_title').value = book.title ?? '';
@@ -407,7 +451,7 @@
                     document.getElementById('edit_publisher').value = book.publisher ?? '';
                     document.getElementById('edit_description').value = book.description ?? '';
                     document.getElementById('edit_year_published').value = book.year_published ??
-                    '';
+                        '';
                     document.getElementById('edit_stock').value = book.stock ?? '';
                     document.getElementById('edit_isbn').value = book.isbn ?? '';
 

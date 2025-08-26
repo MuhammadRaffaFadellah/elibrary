@@ -65,9 +65,11 @@ class BookController extends Controller
                 'cover_image'   => 'nullable|image|mimes:jpg, jpeg, png|max:2049',
                 'stock'         => 'required|integer|min:0',
                 'file_path'     => 'nullable|mimes:pdf, epub, doc, docx|max:5120',
+                'is_recommended' => 'nullable|boolean'
             ]);
 
             $validated['slug'] = Str::slug($validated['title']);
+            $validated['is_recommended'] = $request->has('is_recommended');
             $validated['status'] = 'available';
 
             if ($request->hasFile('cover_image')) {
@@ -108,7 +110,7 @@ class BookController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-    {
+    {   
         try {
             $book = Book::findOrFail($id);
 
@@ -125,7 +127,10 @@ class BookController extends Controller
                 'isbn'             => 'nullable|string|max:20',
                 'cover_image'      => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
                 'file_path'        => 'nullable|file|mimes:pdf,epub,mobi,doc,docx|max:5120',
+                'is_recommended'   => 'nullable|boolean'
             ]);
+
+            $validated['is_recommended'] = $request->has('is_recommended');
 
             // COVER
             if ($request->hasFile('cover_image')) {
@@ -144,12 +149,12 @@ class BookController extends Controller
                 }
                 $validated['file_path'] = $request->file('file_path')->store('files', 'public');
             } else {
-                $validated['file_path'] = $book->file_path; // keep lama
+                $validated['file_path'] = $book->file_path;
             }
 
             $book->update($validated);
 
-            // KATEGORI (biarkan tetap, kecuali dikirim)
+            // KATEGORI
             if ($request->has('categories') && is_array($request->categories)) {
                 $book->categories()->sync($request->categories);
             }
@@ -165,6 +170,8 @@ class BookController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $books = Book::find($id);
+        $books->delete();
+        return redirect()->back()->with('deleted', 'Books deleted successfully');
     }
 }

@@ -73,6 +73,22 @@
                             @endif
                         </div>
                     </div>
+
+                    <!-- Rekomendasi -->
+                    <div class="mt-6">
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" name="is_recommended" value="1"
+                                class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                {{ old('is_recommended', $book->is_recommended) ? 'checked' : '' }}>
+                            <span class="text-gray-700 dark:text-gray-300 font-sm font-medium">
+                                Buku Rekomendasi
+                            </span>
+                        </label>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 ml-8 mt-1">
+                            Centang jika buku ini ingin ditampilkan di halaman rekomendasi.
+                        </p>
+                    </div>
+
                 </div>
 
                 <!-- Right Column -->

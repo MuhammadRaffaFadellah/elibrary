@@ -9,9 +9,11 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BookController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/', [AppController::class, 'landing'])->name('landing');
 
 Route::middleware(['auth', RoleMiddleware::class . ':admin,super_admin'])->group(function () {
     Route::get('/dashboard', [AppController::class, 'index'])->name('dashboard.index');
