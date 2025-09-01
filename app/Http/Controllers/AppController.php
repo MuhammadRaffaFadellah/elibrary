@@ -11,9 +11,10 @@ class AppController extends Controller
 {
     public function index() {
         $user = Auth::user();
+        $booksCount = Books::count();
 
         $userCount = User::where("role_id", 3)->count();
-        return view("back.index-back", compact("user", "userCount"));
+        return view("back.index-back", compact("user", "userCount", "booksCount"));
     }
 
     public function landing() {

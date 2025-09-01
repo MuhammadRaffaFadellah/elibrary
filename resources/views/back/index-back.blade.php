@@ -3,9 +3,9 @@
 @section('page-title', 'Dashboard')
 @section('page-description')
     @if (Auth::user()->role->name === 'super_admin')
-        Welcome, Super Admin!
+        Welcome, Admin {{ $user->username }}!
     @elseif (Auth::user()->role->name === 'admin')
-        Welcome, Admin!
+        Welcome, Admin {{ $user->username }}!
     @endif
 @endsection
 @section('body')
@@ -20,6 +20,9 @@
                 <p class="text-blue-800 text-base leading-relaxed">
                     Number of books
                 </p>
+                <p class="text-blue-800 text-xl font-semibold mt-2 ">
+                    {{ $booksCount }} Recorded
+                </p>
             </div>
 
             <div class="max-w-sm p-6 bg-green-100 border border-green-300 rounded-lg shadow-sm">
@@ -30,6 +33,7 @@
                 <p class="text-green-800 text-base leading-relaxed">
                     Number of books borrowed
                 </p>
+
             </div>
 
             <div

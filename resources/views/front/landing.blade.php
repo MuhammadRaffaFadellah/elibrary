@@ -11,7 +11,7 @@
     @yield('style')
 </head>
 
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
     <style>
         /* Hilangkan scrollbar di semua browser */
         .scrollbar-hide::-webkit-scrollbar {
@@ -57,18 +57,28 @@
         }
     </style>
     <!-- Navbar -->
-    <nav class="fixed w-full bg-white shadow z-50">
+    <nav class="fixed w-full bg-white dark:bg-gray-800 shadow z-50">
         <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-            <div class="text-2xl font-bold text-green-700">eLibrary</div>
+            <div class="text-2xl font-bold text-green-700 dark:text-green-400">eLibrary</div>
             <div class="space-x-4 hidden md:flex">
-                <a href="#features" class="hover:text-green-700">Features</a>
-                <a href="#testimonials" class="hover:text-green-700">Testimonials</a>
-                <a href="#contact" class="hover:text-green-700">Contact</a>
+                <a href="#features" class="hover:text-green-700 text-gray-800  dark:text-gray-100">Features</a>
+                <a href="#testimonials" class="hover:text-green-700 text-gray-800  dark:text-gray-100">Testimonials</a>
+                <a href="#contact" class="hover:text-green-700 text-gray-800  dark:text-gray-100">Contact</a>
             </div>
-            <div class="space-x-2">
+            {{-- <div class="space-x-2">
                 <button class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Login</button>
                 <button class="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200">Register</button>
+            </div> --}}
+            <div class="flex items-center space-x-4">
+                <button class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Login</button>
+                <button
+                    class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600">Register</button>
+                <button id="darkToggle"
+                    class="p-2 bg-gray-200 dark:bg-gray-700 rounded-full shadow hover:bg-gray-300 dark:hover:bg-gray-600 transition">
+                    <i id="themeIcon" class="fas fa-moon text-gray-700 dark:text-yellow-300"></i>
+                </button>
             </div>
+
         </div>
     </nav>
 
@@ -119,28 +129,54 @@
     </section>
 
     <!-- Features -->
-    <section id="features" class="py-20 bg-gray-100">
+    <section id="features" class="py-20 bg-gray-100 dark:bg-gray-800 transition-colors duration-300">
         <div class="max-w-7xl mx-auto text-center">
-            <h2 class="text-3xl font-bold mb-10">Why Choose eLibrary?</h2>
+            <!-- Judul -->
+            <h2 class="text-3xl font-bold mb-10 text-gray-800 dark:text-white transition-colors duration-300">
+                Why Choose eLibrary?
+            </h2>
+
+            <!-- Grid Fitur -->
             <div class="grid md:grid-cols-3 gap-8 px-6">
-                <div class="p-6 bg-white rounded-2xl shadow hover:shadow-lg transition">
+                <!-- Fitur 1 -->
+                <div
+                    class="p-6 bg-white dark:bg-gray-800 rounded-2xl shadow hover:shadow-lg dark:hover:shadow-xl transition">
                     <i class="fas fa-book-open text-green-600 text-4xl mb-4"></i>
-                    <h3 class="text-xl font-semibold mb-2">Vast Collection</h3>
-                    <p>Access thousands of eBooks from various genres and authors.</p>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-800 dark:text-white">
+                        Vast Collection
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Access thousands of eBooks from various genres and authors.
+                    </p>
                 </div>
-                <div class="p-6 bg-white rounded-2xl shadow hover:shadow-lg transition">
+
+                <!-- Fitur 2 -->
+                <div
+                    class="p-6 bg-white dark:bg-gray-800 rounded-2xl shadow hover:shadow-lg dark:hover:shadow-xl transition">
                     <i class="fas fa-laptop text-green-600 text-4xl mb-4"></i>
-                    <h3 class="text-xl font-semibold mb-2">Read Anywhere</h3>
-                    <p>Enjoy reading from any device with seamless experience.</p>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-800 dark:text-white">
+                        Read Anywhere
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Enjoy reading from any device with seamless experience.
+                    </p>
                 </div>
-                <div class="p-6 bg-white rounded-2xl shadow hover:shadow-lg transition">
+
+                <!-- Fitur 3 -->
+                <div
+                    class="p-6 bg-white dark:bg-gray-800 rounded-2xl shadow hover:shadow-lg dark:hover:shadow-xl transition">
                     <i class="fas fa-bolt text-green-600 text-4xl mb-4"></i>
-                    <h3 class="text-xl font-semibold mb-2">Fast & Easy</h3>
-                    <p>Find and read your favorite books instantly with smooth interface.</p>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-800 dark:text-white">
+                        Fast & Easy
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Find and read your favorite books instantly with smooth interface.
+                    </p>
                 </div>
             </div>
         </div>
     </section>
+
 
     <div class="max-w-7xl mx-auto px-6 py-12">
         <h2 class="text-3xl font-bold text-center mb-8">Recommended Books</h2>
@@ -152,7 +188,7 @@
 
                 @foreach ($recommendedBooks as $book)
                     <div
-                        class="flex-shrink-0 w-[220px] bg-white shadow-md rounded-xl overflow-hidden snap-start hover:shadow-xl hover:scale-105 transition-transform duration-300 mt-5 mx-2.5">
+                        class="flex-shrink-0 w-[220px] bg-white dark:bg-gray-800 shadow-md rounded-xl overflow-hidden snap-start hover:shadow-xl hover:scale-105 transition-transform duration-300 mt-5 mx-2.5">
 
                         <!-- Cover Buku -->
                         <img src="{{ $book->cover_image ? asset('storage/' . $book->cover_image) : asset('images/default-book.jpg') }}"
@@ -175,50 +211,99 @@
         </div>
     </div>
 
-
     <!-- Testimonials -->
-    <section id="testimonials" class="py-20">
+    <section id="testimonials" class="py-20 bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
         <div class="max-w-7xl mx-auto text-center px-6">
-            <h2 class="text-3xl font-bold mb-10">What Our Readers Say</h2>
+            <!-- Judul -->
+            <h2 class="text-3xl font-bold mb-10 text-gray-800 dark:text-white transition-colors duration-300">
+                What Our Readers Say
+            </h2>
+
+            <!-- Grid Testimonials -->
             <div class="grid md:grid-cols-3 gap-8">
-                <div class="p-6 bg-white rounded-2xl shadow hover:shadow-lg transition">
-                    <p class="mb-4 italic">“eLibrary has changed how I read books. Super convenient!”</p>
-                    <h3 class="font-semibold">- Sarah J.</h3>
+                <!-- Testimonial 1 -->
+                <div
+                    class="p-6 bg-white dark:bg-gray-800 rounded-2xl shadow hover:shadow-lg dark:hover:shadow-xl transition-transform duration-300 hover:scale-105">
+                    <p class="mb-4 italic text-gray-700 dark:text-gray-300">
+                        “eLibrary has changed how I read books. Super convenient!”
+                    </p>
+                    <h3 class="font-semibold text-gray-800 dark:text-white">- Sarah J.</h3>
                 </div>
-                <div class="p-6 bg-white rounded-2xl shadow hover:shadow-lg transition">
-                    <p class="mb-4 italic">“The best collection of eBooks with amazing user interface.”</p>
-                    <h3 class="font-semibold">- Michael T.</h3>
+
+                <!-- Testimonial 2 -->
+                <div
+                    class="p-6 bg-white dark:bg-gray-800 rounded-2xl shadow hover:shadow-lg dark:hover:shadow-xl transition-transform duration-300 hover:scale-105">
+                    <p class="mb-4 italic text-gray-700 dark:text-gray-300">
+                        “The best collection of eBooks with amazing user interface.”
+                    </p>
+                    <h3 class="font-semibold text-gray-800 dark:text-white">- Michael T.</h3>
                 </div>
-                <div class="p-6 bg-white rounded-2xl shadow hover:shadow-lg transition">
-                    <p class="mb-4 italic">“I can read anywhere, anytime. Truly love it!”</p>
-                    <h3 class="font-semibold">- Linda K.</h3>
+
+                <!-- Testimonial 3 -->
+                <div
+                    class="p-6 bg-white dark:bg-gray-800 rounded-2xl shadow hover:shadow-lg dark:hover:shadow-xl transition-transform duration-300 hover:scale-105">
+                    <p class="mb-4 italic text-gray-700 dark:text-gray-300">
+                        “I can read anywhere, anytime. Truly love it!”
+                    </p>
+                    <h3 class="font-semibold text-gray-800 dark:text-white">- Linda K.</h3>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer id="contact" class="bg-green-700 text-white py-10">
+    <footer id="contact"
+        class="bg-green-700 dark:bg-gray-800 text-white dark:text-gray-300 py-10 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-8">
+            <!-- Brand -->
             <div>
-                <h3 class="font-bold text-lg mb-2">eLibrary</h3>
-                <p>Your digital library for modern readers.</p>
+                <h3 class="font-bold text-lg mb-2 text-white dark:text-white">eLibrary</h3>
+                <p class="text-gray-200 dark:text-gray-400">
+                    Your digital library for modern readers.
+                </p>
             </div>
+
+            <!-- Quick Links -->
             <div>
-                <h3 class="font-bold text-lg mb-2">Quick Links</h3>
-                <ul>
-                    <li><a href="#features" class="hover:underline">Features</a></li>
-                    <li><a href="#testimonials" class="hover:underline">Testimonials</a></li>
-                    <li><a href="#contact" class="hover:underline">Contact</a></li>
+                <h3 class="font-bold text-lg mb-2 text-white dark:text-white">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li>
+                        <a href="#features"
+                            class="hover:text-green-300 dark:hover:text-green-400 transition-colors duration-300">
+                            Features
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#testimonials"
+                            class="hover:text-green-300 dark:hover:text-green-400 transition-colors duration-300">
+                            Testimonials
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#contact"
+                            class="hover:text-green-300 dark:hover:text-green-400 transition-colors duration-300">
+                            Contact
+                        </a>
+                    </li>
                 </ul>
             </div>
+
+            <!-- Contact Info -->
             <div>
-                <h3 class="font-bold text-lg mb-2">Contact Us</h3>
-                <p>Email: support@elibrary.com</p>
-                <p>Phone: +62 812-3456-7890</p>
+                <h3 class="font-bold text-lg mb-2 text-white dark:text-white">Contact Us</h3>
+                <p class="text-gray-200 dark:text-gray-400">
+                    Email: support@elibrary.com
+                </p>
+                <p class="text-gray-200 dark:text-gray-400">
+                    Phone: +62 812-3456-7890
+                </p>
             </div>
         </div>
-        <div class="text-center mt-6">&copy; 2025 eLibrary. All rights reserved.</div>
+
+        <!-- Copyright -->
+        <div class="text-center mt-6 text-gray-100 dark:text-gray-500 transition-colors duration-300">
+            &copy; 2025 eLibrary. All rights reserved.
+        </div>
     </footer>
 
     <!-- Carousel Script -->
@@ -289,6 +374,40 @@
             },
         });
     </script>
+
+    <script>
+        const body = document.documentElement;
+        const toggleBtn = document.getElementById("darkToggle");
+        const themeIcon = document.getElementById("themeIcon");
+
+        // Cek preferensi user sebelumnya atau sistem
+        if (
+            localStorage.theme === "dark" ||
+            (!("theme" in localStorage) &&
+                window.matchMedia("(prefers-color-scheme: dark)").matches)
+        ) {
+            body.classList.add("dark");
+            themeIcon.classList.replace("fa-moon", "fa-sun");
+        } else {
+            body.classList.remove("dark");
+            themeIcon.classList.replace("fa-sun", "fa-moon");
+        }
+
+        // Toggle dark/light mode
+        toggleBtn.addEventListener("click", () => {
+            body.classList.toggle("dark");
+            const isDark = body.classList.contains("dark");
+
+            if (isDark) {
+                themeIcon.classList.replace("fa-moon", "fa-sun");
+                localStorage.theme = "dark";
+            } else {
+                themeIcon.classList.replace("fa-sun", "fa-moon");
+                localStorage.theme = "light";
+            }
+        });
+    </script>
+
 </body>
 
 </html>
