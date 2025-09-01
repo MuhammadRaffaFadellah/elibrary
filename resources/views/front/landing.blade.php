@@ -5,6 +5,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>eLibrary - Landing Page</title>
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/b628ba4512.js" crossorigin="anonymous"></script>
+
     <!-- Vite -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @vite('resources/css/app.css')
@@ -56,29 +60,53 @@
             padding: 1rem;
         }
     </style>
+
     <!-- Navbar -->
     <nav class="fixed w-full bg-white dark:bg-gray-800 shadow z-50">
         <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+            <!-- Logo -->
             <div class="text-2xl font-bold text-green-700 dark:text-green-400">eLibrary</div>
+
+            <!-- Desktop Links -->
             <div class="space-x-4 hidden md:flex">
-                <a href="#features" class="hover:text-green-700 text-gray-800  dark:text-gray-100">Features</a>
-                <a href="#testimonials" class="hover:text-green-700 text-gray-800  dark:text-gray-100">Testimonials</a>
-                <a href="#contact" class="hover:text-green-700 text-gray-800  dark:text-gray-100">Contact</a>
-            </div>
-            {{-- <div class="space-x-2">
-                <button class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Login</button>
-                <button class="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200">Register</button>
-            </div> --}}
-            <div class="flex items-center space-x-4">
-                <button class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Login</button>
-                <button
-                    class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600">Register</button>
-                <button id="darkToggle"
-                    class="p-2 bg-gray-200 dark:bg-gray-700 rounded-full shadow hover:bg-gray-300 dark:hover:bg-gray-600 transition">
-                    <i id="themeIcon" class="fas fa-moon text-gray-700 dark:text-yellow-300"></i>
-                </button>
+                <a href="#features" class="hover:text-green-700 text-gray-800 dark:text-gray-100">Features</a>
+                <a href="#testimonials" class="hover:text-green-700 text-gray-800 dark:text-gray-100">Testimonials</a>
+                <a href="#contact" class="hover:text-green-700 text-gray-800 dark:text-gray-100">Contact</a>
             </div>
 
+            <!-- Right: Dark Toggle + Hamburger -->
+            <div class="flex items-center space-x-2">
+                <!-- Desktop Buttons -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <button class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Login</button>
+                    <button
+                        class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600">Register</button>
+                </div>
+                <!-- Dark Mode Toggle -->
+                <button id="darkToggle"
+                    class="p-2 bg-gray-200 dark:bg-gray-700 rounded-full shadow hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+                    aria-label="Toggle dark mode">
+                    <i id="themeIcon" class="fas fa-moon text-gray-700 dark:text-yellow-300"></i>
+                </button>
+
+                <!-- Hamburger Menu -->
+                <button id="menuToggle"
+                    class="md:hidden p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition"
+                    aria-label="Toggle navigation" aria-expanded="false" aria-controls="mobileMenu">
+                    <i id="menuIcon" class="fa-solid fa-bars text-gray-700 dark:text-gray-100 text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu"
+            class="hidden md:hidden flex flex-col space-y-4 px-6 py-4 bg-white dark:bg-gray-800 shadow-lg transition-all duration-300 ease-in-out">
+            <a href="#features" class="block text-gray-800 dark:text-gray-100 hover:text-green-700">Features</a>
+            <a href="#testimonials" class="block text-gray-800 dark:text-gray-100 hover:text-green-700">Testimonials</a>
+            <a href="#contact" class="block text-gray-800 dark:text-gray-100 hover:text-green-700">Contact</a>
+            <button class="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Login</button>
+            <button
+                class="w-full px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600">Register</button>
         </div>
     </nav>
 
@@ -405,6 +433,20 @@
                 themeIcon.classList.replace("fa-sun", "fa-moon");
                 localStorage.theme = "light";
             }
+        });
+    </script>
+
+    <!-- Mobile Button Script -->
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuIcon = document.getElementById('menuIcon');
+
+        menuToggle.addEventListener('click', () => {
+            const isHidden = mobileMenu.classList.toggle('hidden'); // true = baru disembunyikan
+            menuToggle.setAttribute('aria-expanded', String(!isHidden));
+            menuIcon.classList.toggle('fa-bars', isHidden);
+            menuIcon.classList.toggle('fa-times', !isHidden);
         });
     </script>
 

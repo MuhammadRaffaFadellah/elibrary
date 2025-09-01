@@ -9,8 +9,8 @@
     @endif
 @endsection
 @section('body')
-    <div class="container mt-10">
-        <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 ml-10 lg:ml-0 md:ml-10 sm:ml-5">
+    <div class="container mt-10 flex-wrap justify-center max-w-full">
+        <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 ml-0 lg:ml-0 md:ml-0 sm:ml-0">
 
             <div class="max-w-sm p-6 bg-blue-100 border border-blue-300 rounded-lg shadow-sm">
                 <h5 class="mb-4 text-2xl font-bold tracking-tight text-blue-900 flex items-center gap-3">
@@ -24,7 +24,6 @@
                     {{ $booksCount }} Recorded
                 </p>
             </div>
-
             <div class="max-w-sm p-6 bg-green-100 border border-green-300 rounded-lg shadow-sm">
                 <h5 class="mb-4 text-2xl font-bold tracking-tight text-green-900 flex items-center gap-3">
                     <i class="fa-solid fa-book-bookmark"></i>
